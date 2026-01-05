@@ -1,14 +1,15 @@
-#ifndef H_EVENT
-#define H_EVENT
+#ifndef H_CALENDAR_EVENT
+#define H_CALENDAR_EVENT
 
 #include <cstdint>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include "date.h"
 class Event {
 	private:
 		uint_least16_t year = 2000;
-		uint_fast8_t month = 1;
+		uint_fast8_t month = JANUARY;
 		uint_fast8_t day = 1;
 		std::string description = "";
 
@@ -18,9 +19,8 @@ class Event {
 
 		void setMonth(int month_new) {
 			// `month` is in range 1 - 12 (inclusive both)
-			if (month_new <= 0 || month_new > 12) {
+			if (month_new <= 0 || month_new > DECEMBER) {
 				throw std::invalid_argument("New month is in an invalid range (<= 0 || > 12)");
-				month = month_new;
 			}
 			month = month_new;
 		}
@@ -33,12 +33,11 @@ class Event {
 			// `31` every other number 
 			if (day_new <= 0 || day_new > 31) {
 				throw std::invalid_argument("New day is in an invalid range (<= 0 || > 31)");
-				day = day_new;
 			}
-			if (day_new > 30 && (month == 4 || month == 6 || month == 9 || month == 11)) {
+			if (day_new > 30 && (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER)) {
 				throw std::invalid_argument("New day is in an invalid range (== 31 && month == april, june, september, november)");
 			}
-			if (day_new > 28 && month == 2) {
+			if (day_new > 28 && month == FEBRUARY) {
 				// early return if year %4=0
 				if (day_new == 29 && year % 4 == 0) {
 					day = day_new;
@@ -60,41 +59,34 @@ class Event {
 			return description;
 		}
 
-		// Takes a line that defines an event
+		// event_string: a line that defines an event
 		Event(std::string event_string) {
 			std::stringstream ss;
 
 			// storing `event_string` into `stringstream`
 			ss << event_string;
 
-			// Stores a word
-			std::string aux_word;
 			int value_found;
-			// TODO: REPLACE WITH A FOR LOOP
-			int value_index = 0;
-			// sets the first 3 words in the string to the object according to index. Once it reaches index 3 (The max) it stops and sets description
-			while (value_index < 3) {
-				// Extract word by word
-				ss >> aux_word;
-
-				if (std::stringstream(aux_word) >> value_found) {
-					value_index++;
-					switch (value_index) {
-					case 1:
-						setYear(value_found);
-						break;
-					case 2:
-						setMonth(value_found);
-						break;
-					case 3:
-						setDay(value_found);
-						break;
-					}
+			// sets the first 3 words in the string to date values according to index.
+			for (int index = 0; index < 3; index++) {
+				if (!(ss >> value_found)) {
+					throw std::invalid_argument("Event has incorrect format (correct: YYYY MM DD)");
+				}
+				switch (index) {
+				case 0:
+					setYear(value_found);
+					break;
+				case 1:
+					setMonth(value_found);
+					break;
+				case 2:
+					setDay(value_found);
+					break;
 				}
 			}
-			// Set remaining contents to description and delete remaining space
+			// Set remaining contents to description and delete trail space
 			std::getline(ss, description);
 			description.erase(0, 1); 
 		}
 };
-#endif // !H_EVENT
+#endif // !H_CALENDAR_EVENT
