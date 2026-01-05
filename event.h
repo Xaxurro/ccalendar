@@ -8,31 +8,34 @@
 #include "date.h"
 class Event {
 	private:
-		uint_least16_t year = 2000;
-		uint_fast8_t month = JANUARY;
-		uint_fast8_t day = 1;
+		int_least16_t year = 0;
+		int_least16_t month = 0;
+		int_least16_t day = 0;
 		std::string description = "";
 
-		void setYear(int year_new) {
+		void setYear(int_least16_t year_new) {
+			if (year_new <= 0) {
+				throw std::out_of_range("Year can't be negative!");
+			}
 			year = year_new;
 		}
 
-		void setMonth(int month_new) {
+		void setMonth(int_least16_t month_new) {
 			// `month` is in range 1 - 12 (inclusive both)
 			if (month_new <= 0 || month_new > DECEMBER) {
-				throw std::invalid_argument("New month is in an invalid range (<= 0 || > 12)");
+				throw std::out_of_range("New month is in an invalid range (<= 0 || > 12)");
 			}
 			month = month_new;
 		}
 
-		void setDay(int day_new) {
+		void setDay(int_least16_t day_new) {
 			// `day` min value is 1, max values are:
 			// `28` in february
 			// `29` if february is in a year % 4 == 0
 			// `30` if is april, june, september, november
 			// `31` every other number 
 			if (day_new <= 0 || day_new > 31) {
-				throw std::invalid_argument("New day is in an invalid range (<= 0 || > 31)");
+				throw std::out_of_range("New day is in an invalid range (<= 0 || > 31)");
 			}
 			if (day_new > 30 && (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER)) {
 				throw std::invalid_argument("New day is in an invalid range (== 31 && month == april, june, september, november)");
@@ -57,6 +60,10 @@ class Event {
 
 		std::string getDescription() {
 			return description;
+		}
+
+		bool isValid() {
+			return !(year == 0 && month == 0 && day == 0);
 		}
 
 		// event_string: a line that defines an event
@@ -87,6 +94,11 @@ class Event {
 			// Set remaining contents to description and delete trail space
 			std::getline(ss, description);
 			description.erase(0, 1); 
+			if (description.empty()) {
+				year = 0;
+				month = 0;
+				day = 0;
+			}
 		}
 };
 #endif // !H_CALENDAR_EVENT
