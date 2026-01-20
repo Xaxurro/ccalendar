@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <string>
 #include "../event.h"
 
 TEST(EventTest, ConstructorNoDescription) {
@@ -7,6 +8,13 @@ TEST(EventTest, ConstructorNoDescription) {
 
 TEST(EventTest, ConstructorIncompleteDate) {
 	EXPECT_THROW(Event("2024 02"), std::invalid_argument);
+}
+
+TEST(EventTest, ConstructorNoSpaceBetweenDateAndDescription) {
+	//EXPECT_THROW(Event("2024 02 28This should throw something"), std::invalid_argument);
+	Event event("2024 02 28this has no space in between!");
+	EXPECT_EQ(event.toDateString(), std::string("2024 2 28"));
+	EXPECT_EQ(event.getDescription(), std::string("this has no space in between!"));
 }
 
 TEST(EventTest, ConstructorMissingYearWithDescription) {

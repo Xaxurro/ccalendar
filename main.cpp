@@ -22,7 +22,7 @@ int main (int argc, char *argv[]) {
 		std::ofstream file(filename);
 	}
 
-	Event event("2024 2 29 test1 test2 test3");
+	Event event("2024 02 29 [bold, underline,italic] test1 test2 test3");
 	std::cout << event.toDateString() << std::endl;
 	std::cout << event.getDescription() << std::endl;
 
