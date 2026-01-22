@@ -14,3 +14,7 @@ int_least16_t str_find_tag_clousure(std::string description) {
 	if (tagClosureIndex == description.npos) return -1;
 	return tagClosureIndex;
 }
+
+bool str_has_value(std::string tag) {
+	return tag.find('=') != tag.npos && tag.find_first_of('=') == tag.find_last_of('=');
+}

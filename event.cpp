@@ -31,7 +31,7 @@ Event::Event(std::string event_string) : tags() {
 		description.erase(0, 1);
 	}
 
-	if (int_least16_t tagClosureIndex = str_find_tag_clousure(description) != -1) {
+	if (int_least16_t tagClosureIndex = str_find_tag_clousure(description); tagClosureIndex != -1) {
 		tags.setTags(description.substr(1, tagClosureIndex-1));
 	}
 }
