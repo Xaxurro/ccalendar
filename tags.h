@@ -20,8 +20,6 @@ class Tags {
 			return tag.find('=') != tag.npos && tag.find_first_of('=') == tag.find_last_of('=');
 		}
 	public:
-		Tags() {}
-
 		size_t size() {
 			int size_value = tags.size();
 			return tags.size();

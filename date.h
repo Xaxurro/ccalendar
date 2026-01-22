@@ -29,8 +29,6 @@ class Date {
 		static bool isMonthOutOfRange(int_least16_t month) { return month < JANUARY || month > DECEMBER; }
 		static bool isDayOutOfRange(int_least16_t day) { return day < 1 || day > 31; }
 			
-		// If year, month OR day == 0 returns false, otherwise true.
-		bool isReady() const { return !(year == 0 || month == 0 || day == 0); }
 	public:
 		int_least16_t getYear() const { return year; }
 		int_least16_t getMonth() const { return month; }
@@ -41,5 +39,7 @@ class Date {
 		void setDay(int_least16_t day_new);
 
 		std::string toString() const { return std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day); }
+
+		bool isInvalid() const { return year == 0 || month == 0 || day == 0; }
 };
 #endif

@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 void Date::checkExistance() const {
-	if (!isReady()) return;
+	if (isInvalid()) return;
 	if (int_least16_t max_day = maxDayIn(month); day > max_day) {
         	throw std::out_of_range("This date does not exists!: " + toString());
         }
