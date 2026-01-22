@@ -25,7 +25,7 @@ class Date {
 
 		int_least16_t maxDayIn(int_least16_t month) const;
 
-		static bool isYearOutOfRange(int_least16_t year) { return year < 1; }
+		static bool isYearOutOfRange(int_least16_t year) { return year < 1 || year > 9999; }
 		static bool isMonthOutOfRange(int_least16_t month) { return month < JANUARY || month > DECEMBER; }
 		static bool isDayOutOfRange(int_least16_t day) { return day < 1 || day > 31; }
 			
