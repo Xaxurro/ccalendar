@@ -1,4 +1,5 @@
 #include "date.h"
+#include <cstdint>
 #include <stdexcept>
 
 void Date::checkExistance() const {
@@ -46,4 +47,65 @@ void Date::setDay(int_least16_t day_new) {
 	}
 	day = day_new;
 	checkExistance();
+}
+
+Date Date::operator+(int_least16_t days_added) {
+	int_least16_t day_new = day;
+	int_least16_t month_new = month;
+	int_least16_t year_new = year;
+	while (days_added > 0) {
+		//Day within month
+		int_least16_t sum = day_new + days_added;
+		int_least16_t maxDay = maxDayIn(month_new);
+		if (sum <= maxDay) {
+			days_added = 0;
+			day_new = sum;
+			continue;
+		}
+		//next month
+		if (day_new == maxDay) {
+			days_added -= 1;
+			day_new = 1;
+			month_new += 1;
+			if (month_new > DECEMBER) {
+				month_new = JANUARY;
+				year_new += 1;
+			}
+		//distance until month border
+		} else {
+			days_added -= maxDay - day_new;
+			day_new = maxDay;
+		}
+	}
+	return Date(day_new, month_new, year_new);
+}
+
+Date Date::operator-(int_least16_t days_substracted) {
+	int_least16_t day_new = day;
+	int_least16_t month_new = month;
+	int_least16_t year_new = year;
+	while (days_substracted > 0) {
+		//Day within month
+		int_least16_t substraction = day_new - days_substracted;
+		if (substraction >= 1) {
+			days_substracted = 0;
+			day_new = substraction;
+			continue;
+		}
+		//previous month
+		if (day_new == 1) {
+			days_substracted -= 1;
+			month_new -= 1;
+			if (month_new < JANUARY) {
+				month_new = DECEMBER;
+				year_new -= 1;
+			}
+			day_new = maxDayIn(month_new);
+		//distance until month border
+		} else {
+			days_substracted -= day_new - 1;
+			day_new = 1;
+		}
+	}
+	return Date(day_new, month_new, year_new);
 }

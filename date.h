@@ -30,6 +30,15 @@ class Date {
 		static bool isDayOutOfRange(int_least16_t day) { return day < 1 || day > 31; }
 			
 	public:
+		std::string toString() const { return std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day); }
+		bool isInvalid() const { return year == 0 || month == 0 || day == 0; }
+
+		Date () {};
+		Date (int_least16_t day_new, int_least16_t month_new, int_least16_t year_new) : day(day_new), month(month_new), year(year_new){
+			checkExistance();
+		}
+
+
 		int_least16_t getYear() const { return year; }
 		int_least16_t getMonth() const { return month; }
 		int_least16_t getDay() const { return day; }
@@ -38,8 +47,7 @@ class Date {
 		void setMonth(int_least16_t month_new);
 		void setDay(int_least16_t day_new);
 
-		std::string toString() const { return std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day); }
-
-		bool isInvalid() const { return year == 0 || month == 0 || day == 0; }
+		Date operator + (int_least16_t days);
+		Date operator - (int_least16_t days);
 };
 #endif
