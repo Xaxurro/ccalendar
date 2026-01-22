@@ -1,10 +1,15 @@
 cc = clang++
+ccd = clang++ -fsanitize=address -g -lgtest -lgtest_main
 all:
 	$(cc) main.cpp -o calendar.bin
 
 test:
-	$(cc) -fsanitize=address -g tests/event_test.cpp -o events.test -lgtest -lgtest_main
-	$(cc) -fsanitize=address -g tests/tag_test.cpp -o tags.test -lgtest -lgtest_main
+	$(ccd) tests/event.cpp event.cpp -o events.test
+	$(ccd) tests/tag.cpp tag.cpp -o tags.test
+	$(ccd) tests/date.cpp date.cpp -o date.test
+
+date:
+	$(ccd) tests/date.cpp date.cpp -o date.test
 
 clean:
 	rm -f *.bin

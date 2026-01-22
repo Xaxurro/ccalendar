@@ -11,67 +11,16 @@
 
 class Event {
 	private:
-		int_least16_t year = 0;
-		int_least16_t month = 0;
-		int_least16_t day = 0;
+		Date date();
 		Tags tags;
 		std::string description = "";
-
-		void setYear(int_least16_t year_new) {
-			if (year_new <= 0) {
-				throw std::out_of_range("Year can't be negative!");
-			}
-			year = year_new;
-		}
-
-		void setMonth(int_least16_t month_new) {
-			// `month` is in range 1 - 12 (inclusive both)
-			if (month_new <= 0 || month_new > DECEMBER) {
-				throw std::out_of_range("New month is in an invalid range (<= 0 || > 12)");
-			}
-			month = month_new;
-		}
-
-		void setDay(int_least16_t day_new) {
-			// `day` min value is 1, max values are:
-			// `28` in february
-			// `29` if february is in a year % 4 == 0
-			// `30` if is april, june, september, november
-			// `31` every other number 
-			if (day_new <= 0 || day_new > 31) {
-				throw std::out_of_range("New day is in an invalid range (<= 0 || > 31)");
-			}
-			if (day_new > 30 && (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER)) {
-				throw std::invalid_argument("New day is in an invalid range (== 31 && month == april, june, september, november)");
-			}
-			if (day_new > 28 && month == FEBRUARY) {
-				// early return if year %4=0
-				if (day_new == 29 && year % 4 == 0) {
-					day = day_new;
-					return;
-				}
-				throw std::invalid_argument("New day is in an invalid range (> 28 && month == february || == 29 && year % 4 != 0)");
-			}
-			day = day_new;
-		}
-
 	public:
-		// Concatenates the dates values
-		std::string toDateString() {
-			std::string output = "";
-			return std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day);
-		}
-
 		std::string getDescription() {
 			return description;
 		}
 
 		Tags* getTags() {
 			return &tags;
-		}
-
-		bool isValid() {
-			return !(year == 0 && month == 0 && day == 0);
 		}
 
 		// event_string: a line that defines an event
