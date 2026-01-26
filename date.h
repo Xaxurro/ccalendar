@@ -2,6 +2,13 @@
 #define H_DATE
 #include <cstdint>
 #include <string>
+#define MONDAY		1
+#define TUESDAY		2
+#define WEDNESDAY	3
+#define THURSDAY	4
+#define FRIDAY		5
+#define SATURDAY	6
+#define SUNDAY		7
 #define JANUARY		1
 #define FEBRUARY	2
 #define MARCH		3
@@ -42,6 +49,7 @@ class Date {
 		int_least16_t getYear() const { return year; }
 		int_least16_t getMonth() const { return month; }
 		int_least16_t getDay() const { return day; }
+		int_least16_t getDayOfTheWeek() const;
 
 		void setYear(int_least16_t year_new);
 		void setMonth(int_least16_t month_new);

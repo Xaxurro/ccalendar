@@ -69,3 +69,23 @@ TEST(DateTest, DaysSubstracted) {
 	EXPECT_EQ(date_past.getMonth(), APRIL);
 	EXPECT_EQ(date_past.getYear(), 2009);
 }
+
+TEST(DateTest, GetDayOfTheWeek) {
+	Date date;
+	date.setYear(2026);
+	date.setMonth(JANUARY);
+	date.setDay(19);
+	EXPECT_EQ(date.getDayOfTheWeek(), MONDAY);
+	date.setDay(20);
+	EXPECT_EQ(date.getDayOfTheWeek(), TUESDAY);
+	date.setDay(21);
+	EXPECT_EQ(date.getDayOfTheWeek(), WEDNESDAY);
+	date.setDay(22);
+	EXPECT_EQ(date.getDayOfTheWeek(), THURSDAY);
+	date.setDay(23);
+	EXPECT_EQ(date.getDayOfTheWeek(), FRIDAY);
+	date.setDay(24);
+	EXPECT_EQ(date.getDayOfTheWeek(), SATURDAY);
+	date.setDay(25);
+	EXPECT_EQ(date.getDayOfTheWeek(), SUNDAY);
+}

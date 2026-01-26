@@ -1,4 +1,5 @@
 #include "date.h"
+#include <cmath>
 #include <cstdint>
 #include <stdexcept>
 
@@ -47,6 +48,27 @@ void Date::setDay(int_least16_t day_new) {
 	}
 	day = day_new;
 	checkExistance();
+}
+
+//Return the Day of the week using Zeller's Congruence, but with 1 = Monday, 2 = Tuesday, ..., 7 = Sunday
+int_least16_t Date::getDayOfTheWeek() const {
+	int_least16_t monthAux = month;
+	int_least16_t yearAux = year;
+
+	if (monthAux == JANUARY || monthAux == FEBRUARY) {
+		monthAux += 12;
+		yearAux -= 1;
+	}
+
+	// 22 13 2025
+	int_least16_t dayOfTheWeek = day;
+	dayOfTheWeek += floor((float)(13 * (monthAux + 1)) / 5);
+	dayOfTheWeek += (yearAux % 100);
+	dayOfTheWeek += floor((float)(yearAux % 100) / 4);
+	dayOfTheWeek += floor((float)yearAux/100);
+	dayOfTheWeek %= 7;
+	if (dayOfTheWeek == 0) return SUNDAY;
+	return dayOfTheWeek;
 }
 
 Date Date::operator+(int_least16_t days_added) {

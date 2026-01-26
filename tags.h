@@ -17,7 +17,7 @@ class Tags {
 
 		std::string operator [](std::string tagToSearch) { return tags[tagToSearch]; }
 
-		// Returns `true` if tag is present in tag list
+		// Returns `true` if tag is present
 		bool has(std::string tagToSearch);
 
 		void setTags(std::string tagsStr);
