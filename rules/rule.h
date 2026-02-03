@@ -1,3 +1,6 @@
+#ifndef H_RULES
+#define H_RULES
+
 #include <algorithm>
 #include <stdexcept>
 #include "../date.h"
@@ -17,3 +20,5 @@ class Rule {
 
 		virtual bool isValidIn(Date date) = 0;
 };
+
+#endif // !H_RULES

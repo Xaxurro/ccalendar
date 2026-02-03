@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "../date.h"
 #include "../rules/fixed.h"
+#include "../rules/ranged-fixed.h"
 
 TEST(Fixed, MatchingValues) {
 	Date date(8, 11, 2002);
@@ -37,4 +38,13 @@ TEST(Fixed, MaximumDate) {
 	ASSERT_TRUE(rule.isValidIn(date));
 	rule = RuleFixed(DAY, 31);
 	ASSERT_TRUE(rule.isValidIn(date));
+}
+
+TEST(RangedFixed, MatchingValues) {
+	Date date(9, 5, 2009);
+	RuleRangedFixed rule(DAY, 1, 10);
+	ASSERT_TRUE(rule.isValidIn(date));
+
+	rule = RuleRangedFixed(DAY, 10, 20);
+	ASSERT_FALSE(rule.isValidIn(date));
 }
