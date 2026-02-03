@@ -2,27 +2,37 @@
 #define H_CALENDAR_EVENT
 
 #include <cctype>
+#include <list>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include "date.h"
 #include "strings.h"
 #include "tags.h"
+#include "rules/rule.h"
+
+#define EVENT_REGEX_STR "(\\d{1,2}|\\*|\\{[ \\d$]*\\}) (\\d{1,2}|\\*|\\{[ \\d]*\\}) (\\d{4}|\\*|\\{[ \\d]*\\}) *(\\[.*\\])? *(.*)"
 
 class Event {
 	private:
-		Date date;
+		std::list<Rule> yearRules;
+		std::list<Rule> monthRules;
+		std::list<Rule> dayRules;
 		Tags tags;
 		std::string description = "";
 
 	public:
-		std::string getDescription() { return description; }
-		Date* getDate() { return &date; }
-		Tags* getTags() { return &tags; }
+		const std::string getDescription() { return description; }
+		const std::list<Rule>* getYearRules() { return &yearRules; }
+		const std::list<Rule>* getMonthRules() { return &monthRules; }
+		const std::list<Rule>* getDayRules() { return &dayRules; }
+		const Tags* getTags() { return &tags; }
 
-		bool isInvalid() { return date.isInvalid() || str_is_blank(description); }
+		const bool isInvalid() { return date.isInvalid() || str_is_blank(description); }
 
 		// event_string: a line that defines an event
-		Event(std::string event_string);
+		Event(Date dateNew, Tags tagsNew, std::string descriptionNew);
+
+		static std::list<Event> fromString(std::string str);
 };
 #endif // !H_CALENDAR_EVENT

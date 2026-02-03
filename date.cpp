@@ -5,13 +5,13 @@
 
 void Date::checkExistance() const {
 	if (isInvalid()) return;
-	if (int_least16_t max_day = maxDayIn(month); day > max_day) {
+	if (int_least16_t max_day = maxDayIn(month, year); day > max_day) {
         	throw std::out_of_range("This date does not exists!: " + toString());
         }
 }
 
 //Returns the valur of the maximum day in given month
-int_least16_t Date::maxDayIn(int_least16_t month) const {
+ int_least16_t Date::maxDayIn(int_least16_t month, int_least16_t year) {
 	if (isMonthOutOfRange(month)) {
 		throw std::out_of_range("New month is in an invalid range (< 1 || > 12)");
 	}
@@ -78,7 +78,7 @@ Date Date::operator+(int_least16_t days_added) {
 	while (days_added > 0) {
 		//Day within month
 		int_least16_t sum = day_new + days_added;
-		int_least16_t maxDay = maxDayIn(month_new);
+		int_least16_t maxDay = maxDayIn(month_new, year_new);
 		if (sum <= maxDay) {
 			days_added = 0;
 			day_new = sum;
@@ -122,7 +122,7 @@ Date Date::operator-(int_least16_t days_substracted) {
 				month_new = DECEMBER;
 				year_new -= 1;
 			}
-			day_new = maxDayIn(month_new);
+			day_new = maxDayIn(month_new, year_new);
 		//distance until month border
 		} else {
 			days_substracted -= day_new - 1;
