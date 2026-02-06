@@ -1,5 +1,5 @@
 #include "rule.h"
 class RuleWildcard: public Rule {
 	public:
-          bool isValidIn(Date date);
+          const bool isValidIn(Date* date);
 };

@@ -7,5 +7,5 @@ class RuleDynamicRange: public Rule {
 		RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew);
 		const int_least16_t getValueLower() { return valueLower; };
 		const int_least16_t getValueUpper() { return valueUpper; };
-		bool isValidIn(Date date);
+		const bool isValidIn(Date* date);
 };

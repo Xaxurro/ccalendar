@@ -70,6 +70,60 @@ TEST(DateTest, DaysSubstracted) {
 	EXPECT_EQ(date_past.getYear(), 2009);
 }
 
+TEST(DateTest, Equals) {
+	Date dateToCompare(10, 6, 2002);
+	EXPECT_TRUE(dateToCompare == Date(10, 6, 2002));
+}
+
+TEST(DateTest, NotEquals) {
+	Date dateToCompare(10, 6, 2002);
+	EXPECT_TRUE(dateToCompare != Date(9, 6, 2002));
+}
+
+TEST(DateTest, GreaterThan) {
+	Date dateToCompare(10, 10, 2002);
+	EXPECT_FALSE(dateToCompare	> Date(10, 10, 2003));	// <
+	EXPECT_TRUE(dateToCompare	> Date(10, 10, 2001));	// >
+	EXPECT_FALSE(dateToCompare	> Date(10, 11, 2002));	// <
+	EXPECT_TRUE(dateToCompare	> Date(10, 9, 2002));	// >
+	EXPECT_FALSE(dateToCompare	> Date(11, 10, 2002));	// <
+	EXPECT_TRUE(dateToCompare	> Date(9, 10, 2002));	// >
+	EXPECT_FALSE(dateToCompare	> Date(10, 10, 2002));	// ==
+}
+
+TEST(DateTest, LessThan) {
+	Date dateToCompare(10, 10, 2002);
+	EXPECT_TRUE(dateToCompare	< Date(10, 10, 2003));	// >
+	EXPECT_FALSE(dateToCompare	< Date(10, 10, 2001));	// <
+	EXPECT_TRUE(dateToCompare	< Date(10, 11, 2002));	// >
+	EXPECT_FALSE(dateToCompare	< Date(10, 9, 2002));	// <
+	EXPECT_TRUE(dateToCompare	< Date(11, 10, 2002));	// >
+	EXPECT_FALSE(dateToCompare	< Date(9, 10, 2002));	// <
+	EXPECT_FALSE(dateToCompare	< Date(10, 10, 2002));	// ==
+}
+
+TEST(DateTest, GreaterOrEqualThan) {
+	Date dateToCompare(10, 10, 2002);
+	EXPECT_FALSE(dateToCompare	>= Date(10, 10, 2003));	// <
+	EXPECT_TRUE(dateToCompare	>= Date(10, 10, 2001));	// >
+	EXPECT_FALSE(dateToCompare	>= Date(10, 11, 2002));	// <
+	EXPECT_TRUE(dateToCompare	>= Date(10, 9, 2002));	// >
+	EXPECT_FALSE(dateToCompare	>= Date(11, 10, 2002));	// <
+	EXPECT_TRUE(dateToCompare	>= Date(9, 10, 2002));	// >
+	EXPECT_TRUE(dateToCompare	>= Date(10, 10, 2002));	// ==
+}
+
+TEST(DateTest, LessOrEqualThan) {
+	Date dateToCompare(10, 10, 2002);
+	EXPECT_TRUE(dateToCompare	<= Date(10, 10, 2003));	// >
+	EXPECT_FALSE(dateToCompare	<= Date(10, 10, 2001));	// <
+	EXPECT_TRUE(dateToCompare	<= Date(10, 11, 2002));	// >
+	EXPECT_FALSE(dateToCompare	<= Date(10, 9, 2002));	// <
+	EXPECT_TRUE(dateToCompare	<= Date(11, 10, 2002));	// >
+	EXPECT_FALSE(dateToCompare	<= Date(9, 10, 2002));	// <
+	EXPECT_TRUE(dateToCompare	<= Date(10, 10, 2002));	// ==
+}
+
 TEST(DateTest, GetDayOfTheWeek) {
 	Date date;
 	date.setYear(2026);

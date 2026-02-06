@@ -16,18 +16,18 @@ RuleFixed::RuleFixed(int_least16_t measure, int_least16_t valueNew) {
 	value = valueNew;
 }
 
-bool RuleFixed::isValidIn(Date date) {
+const bool RuleFixed::isValidIn(Date* date) {
 	switch(measure) {
 	case DAY: {
-		int_least16_t maxDay = date.maxDayIn(date.getMonth(), date.getYear());
-		return value == date.getDay() || value >= maxDay;
+		int_least16_t maxDay = date->maxDayIn(date->getMonth(), date->getYear());
+		return value == date->getDay() || value >= maxDay;
 	}
 	break;
 	case MONTH:
-		return value == date.getMonth();
+		return value == date->getMonth();
 	break;
 	case YEAR:
-		return value == date.getYear();
+		return value == date->getYear();
 	break;
 	}
 	return false;

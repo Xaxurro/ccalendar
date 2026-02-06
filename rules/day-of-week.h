@@ -6,5 +6,5 @@ class RuleDayOfWeek: public Rule {
 	public:
 		RuleDayOfWeek(int_least16_t day);
 		const int_least16_t getDay() { return day; };
-		bool isValidIn(Date date);
+		const bool isValidIn(Date* date);
 };

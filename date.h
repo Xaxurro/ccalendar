@@ -56,5 +56,12 @@ class Date {
 
 		Date operator + (int_least16_t days);
 		Date operator - (int_least16_t days);
+
+		bool operator > (Date day);
+		bool operator < (Date day);
+		bool operator == (Date day);
+		bool operator != (Date day);
+		bool operator >= (Date day);
+		bool operator <= (Date day);
 };
 #endif

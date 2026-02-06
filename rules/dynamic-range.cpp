@@ -1,6 +1,8 @@
 #include "dynamic-range.h"
+#include <stdexcept>
 
 RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew) {
+	if (valueLowerNew > valueUpperNew) throw std::invalid_argument("Rule Dynamic Range can't have a lower value > upper value");
 	setMeasure(measure);
 	switch(measure) {
 	case DAY:
@@ -20,19 +22,19 @@ RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLow
 	valueUpper = valueUpperNew;
 }
 
-bool RuleDynamicRange::isValidIn(Date date) {
+const bool RuleDynamicRange::isValidIn(Date* date) {
 	switch(measure) {
 	case DAY: {
-		int_least16_t maxDay = date.maxDayIn(date.getMonth(), date.getYear());
+		int_least16_t maxDay = date->maxDayIn(date->getMonth(), date->getYear());
 		if (valueUpper > maxDay) valueUpper = maxDay;
-		return date.getDay() >= valueLower && date.getDay() <= valueUpper;
+		return date->getDay() >= valueLower && date->getDay() <= valueUpper;
 	}
 	break;
 	case MONTH:
-		return date.getMonth() >= valueLower && date.getMonth() <= valueUpper;
+		return date->getMonth() >= valueLower && date->getMonth() <= valueUpper;
 	break;
 	case YEAR:
-		return date.getYear() >= valueLower && date.getYear() <= valueUpper;
+		return date->getYear() >= valueLower && date->getYear() <= valueUpper;
 	break;
 	}
 	return false;

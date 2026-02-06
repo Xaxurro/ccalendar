@@ -131,3 +131,39 @@ Date Date::operator-(int_least16_t days_substracted) {
 	}
 	return Date(day_new, month_new, year_new);
 }
+
+bool Date::operator>(Date dateToCompare) {
+	if (year > dateToCompare.getYear()) return true;
+	if (year < dateToCompare.getYear()) return false;
+	if (month > dateToCompare.getMonth()) return true;
+	if (month < dateToCompare.getMonth()) return false;
+	if (day > dateToCompare.getDay()) return true;
+	return false;
+}
+
+bool Date::operator<(Date dateToCompare) {
+	if (year > dateToCompare.getYear()) return false;
+	if (year < dateToCompare.getYear()) return true;
+	if (month > dateToCompare.getMonth()) return false;
+	if (month < dateToCompare.getMonth()) return true;
+	if (day < dateToCompare.getDay()) return true;
+	return false;
+}
+
+bool Date::operator==(Date dateToCompare) {
+	return year == dateToCompare.getYear() && month == dateToCompare.getMonth() && day == dateToCompare.getDay();
+}
+
+bool Date::operator!=(Date dateToCompare) {
+	return year != dateToCompare.getYear() || month != dateToCompare.getMonth() || day != dateToCompare.getDay();
+}
+
+bool Date::operator>=(Date dateToCompare) {
+	if (*this == dateToCompare) return true;
+	return *this > dateToCompare;
+}
+
+bool Date::operator<=(Date dateToCompare) {
+	if (*this == dateToCompare) return true;
+	return *this < dateToCompare;
+}

@@ -18,7 +18,7 @@ class Rule {
 			measure = measureNew;
 		}
 
-		virtual bool isValidIn(Date date) = 0;
+		const virtual bool isValidIn(Date* date) = 0;
 };
 
 #endif // !H_RULES

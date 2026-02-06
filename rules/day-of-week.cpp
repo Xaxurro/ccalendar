@@ -5,6 +5,6 @@ RuleDayOfWeek::RuleDayOfWeek(int_least16_t day) {
 	this->day = day;
 }
 
-bool RuleDayOfWeek::isValidIn(Date date) {
-	return date.getDayOfTheWeek() == day;
+const bool RuleDayOfWeek::isValidIn(Date* date) {
+	return date->getDayOfTheWeek() == day;
 }
