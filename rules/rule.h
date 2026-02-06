@@ -5,6 +5,9 @@
 #include <stdexcept>
 #include "../date.h"
 
+#define REGEX_DATE_SEPARATOR "[ \\t.:,;\\-_?!\\\\/|]"
+#define REGEX_DAY_MONTH "\\d{1,2}"
+#define REGEX_YEAR "\\d{4}"
 #define DAY 1
 #define MONTH 2
 #define YEAR 3

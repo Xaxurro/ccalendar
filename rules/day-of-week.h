@@ -1,5 +1,7 @@
 #include "rule.h"
 #include "../date.h"
+
+#define REGEX_DAY_OF_WEEK "#[0-7]"
 class RuleDayOfWeek: public Rule {
 	private: 
 		int_least16_t day = 0;
