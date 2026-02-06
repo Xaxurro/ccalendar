@@ -11,22 +11,35 @@ o:
 	$(cco) $(cpp)
 
 date:
-	$(cco) date.cpp -o date.o
-
-rules: date
-	$(cco) rules/fixed.cpp -o rules/fixed.o
-	$(cco) rules/dynamic-range.cpp -o rules/dynamic-range.o
-	$(cco) rules/wildcard.cpp -o rules/wildcard.o
+	$(cco) date.cpp
 
 date-test: date
 	$(ccd) tests/date.cpp date.o -o date.test
 
+rules: date
+	cd ./rules && \
+	clang++ -c *.cpp && \
+	cd ..
+
 rules-test: rules
 	$(ccd) tests/rules.cpp $(rules.o) date.o -o rules.test
 
-tests: date-test rules-test
-	$(ccd) tests/event.cpp $(event) -o event.test
-	$(ccd) tests/tags.cpp $(event) -o tags.test
+strings:
+	$(cco) strings.cpp
+
+tags: strings
+	$(cco) tags.cpp
+
+tags-test: tags
+	$(ccd) tests/tags.cpp tags.o strings.o -o tags.test
+
+event: date rules strings tags
+	$(cco) event.cpp
+
+event-test: event
+	$(ccd) tests/event.cpp $(event) $(rules.o) -o event.test
+
+tests: date-test rules-test tags-test event-test
 
 tests-run:
 	./date.test & ./tags.test & ./event.test & ./rules.test

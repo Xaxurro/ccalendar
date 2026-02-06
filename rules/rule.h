@@ -13,7 +13,7 @@ class Rule {
 	protected:
 		int_least16_t measure = 0;
 	public:
-		Rule(int_least16_t measureNew) {
+		void setMeasure(int_least16_t measureNew) {
 			if (measureNew != DAY && measureNew != MONTH && measureNew != YEAR) throw std::invalid_argument("INVALID MEASURE FOR RULE");
 			measure = measureNew;
 		}

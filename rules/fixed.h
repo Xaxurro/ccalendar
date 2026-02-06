@@ -4,5 +4,6 @@ class RuleFixed: public Rule {
 		int_least16_t value = 0;
 	public:
 		RuleFixed(int_least16_t measure, int_least16_t valueNew);
+		const int_least16_t getValue() { return value; };
 		bool isValidIn(Date date);
 };

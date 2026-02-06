@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <stdexcept>
 #include "../date.h"
 #include "../rules/fixed.h"
 #include "../rules/dynamic-range.h"

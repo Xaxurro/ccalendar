@@ -1,6 +1,7 @@
 #include "dynamic-range.h"
 
-RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew): Rule(measure) {
+RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew) {
+	setMeasure(measure);
 	switch(measure) {
 	case DAY:
 		Date::isDayOutOfRange(valueLowerNew);

@@ -1,6 +1,7 @@
 #include "fixed.h"
 
-RuleFixed::RuleFixed(int_least16_t measure, int_least16_t valueNew): Rule(measure) {
+RuleFixed::RuleFixed(int_least16_t measure, int_least16_t valueNew) {
+	setMeasure(measure);
 	switch(measure) {
 	case DAY:
 		Date::isDayOutOfRange(valueNew);
