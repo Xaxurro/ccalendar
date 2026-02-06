@@ -15,7 +15,7 @@ date:
 
 rules: date
 	$(cco) rules/fixed.cpp -o rules/fixed.o
-	$(cco) rules/ranged-fixed.cpp -o rules/ranged-fixed.o
+	$(cco) rules/dynamic-range.cpp -o rules/dynamic-range.o
 	$(cco) rules/wildcard.cpp -o rules/wildcard.o
 
 date-test: date
@@ -35,3 +35,4 @@ clean:
 	rm -f *.bin
 	rm -f *.test
 	rm -f *.o
+	rm -f rules/*.o

@@ -1,6 +1,6 @@
-#include "ranged-fixed.h"
+#include "dynamic-range.h"
 
-RuleRangedFixed::RuleRangedFixed(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew): Rule(measure) {
+RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew): Rule(measure) {
 	switch(measure) {
 	case DAY:
 		Date::isDayOutOfRange(valueLowerNew);
@@ -19,7 +19,7 @@ RuleRangedFixed::RuleRangedFixed(int_least16_t measure, int_least16_t valueLower
 	valueUpper = valueUpperNew;
 }
 
-bool RuleRangedFixed::isValidIn(Date date) {
+bool RuleDynamicRange::isValidIn(Date date) {
 	switch(measure) {
 	case DAY: {
 		int_least16_t maxDay = date.maxDayIn(date.getMonth(), date.getYear());

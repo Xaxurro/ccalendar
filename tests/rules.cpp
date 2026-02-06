@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include "../date.h"
 #include "../rules/fixed.h"
-#include "../rules/ranged-fixed.h"
+#include "../rules/dynamic-range.h"
 #include "../rules/wildcard.h"
 
 TEST(Fixed, MatchingValues) {
@@ -43,10 +43,10 @@ TEST(Fixed, MaximumDate) {
 
 TEST(RangedFixed, MatchingValues) {
 	Date date(9, 5, 2009);
-	RuleRangedFixed rule(DAY, 1, 10);
+	RuleDynamicRange rule(DAY, 1, 10);
 	ASSERT_TRUE(rule.isValidIn(date));
 
-	rule = RuleRangedFixed(DAY, 10, 20);
+	rule = RuleDynamicRange(DAY, 10, 20);
 	ASSERT_FALSE(rule.isValidIn(date));
 }
 
