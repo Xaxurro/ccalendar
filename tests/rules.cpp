@@ -3,6 +3,7 @@
 #include "../rules/fixed.h"
 #include "../rules/dynamic-range.h"
 #include "../rules/wildcard.h"
+#include "../rules/day-of-week.h"
 
 TEST(Fixed, MatchingValues) {
 	Date date(8, 11, 2002);
@@ -54,4 +55,18 @@ TEST(Wildcard, AssertNoFalses) {
 	Date date(31, 10, 2026);
 	RuleWildcard rule;
 	ASSERT_TRUE(rule.isValidIn(date));
+}
+
+TEST(DayOfWeek, getDayOfWeek) {
+	// 31 of December is a THURSDAY
+	Date date(31, 12, 2026);
+
+	EXPECT_FALSE(RuleDayOfWeek(MONDAY).isValidIn(date));
+	EXPECT_FALSE(RuleDayOfWeek(TUESDAY).isValidIn(date));
+	EXPECT_FALSE(RuleDayOfWeek(WEDNESDAY).isValidIn(date));
+	EXPECT_FALSE(RuleDayOfWeek(FRIDAY).isValidIn(date));
+	EXPECT_FALSE(RuleDayOfWeek(SATURDAY).isValidIn(date));
+	EXPECT_FALSE(RuleDayOfWeek(MONDAY).isValidIn(date));
+
+	EXPECT_TRUE(RuleDayOfWeek(THURSDAY).isValidIn(date));
 }
