@@ -16,6 +16,7 @@ date:
 rules: date
 	$(cco) rules/fixed.cpp -o rules/fixed.o
 	$(cco) rules/ranged-fixed.cpp -o rules/ranged-fixed.o
+	$(cco) rules/wildcard.cpp -o rules/wildcard.o
 
 date-test: date
 	$(ccd) tests/date.cpp date.o -o date.test

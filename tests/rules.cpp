@@ -3,6 +3,7 @@
 #include "../date.h"
 #include "../rules/fixed.h"
 #include "../rules/ranged-fixed.h"
+#include "../rules/wildcard.h"
 
 TEST(Fixed, MatchingValues) {
 	Date date(8, 11, 2002);
@@ -47,4 +48,11 @@ TEST(RangedFixed, MatchingValues) {
 
 	rule = RuleRangedFixed(DAY, 10, 20);
 	ASSERT_FALSE(rule.isValidIn(date));
+}
+
+
+TEST(Wildcard, AssertNoFalses) {
+	Date date(31, 10, 2026);
+	RuleWildcard rule;
+	ASSERT_TRUE(rule.isValidIn(date));
 }
