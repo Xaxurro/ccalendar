@@ -20,17 +20,13 @@
 
 class Event {
 	private:
-		std::list<Rule*>* yearRules = nullptr;
-		std::list<Rule*>* monthRules = nullptr;
-		std::list<Rule*>* dayRules = nullptr;
+		std::list<Rule*>* rules = nullptr;
 		Tags* tags;
 		std::string description = "";
 
 	public:
 		const std::string getDescription() { return description; }
-		const std::list<Rule*>* getYearRules() { return yearRules; }
-		const std::list<Rule*>* getMonthRules() { return monthRules; }
-		const std::list<Rule*>* getDayRules() { return dayRules; }
+		const std::list<Rule*>* getRules() { return rules; }
 		const Tags* getTags() { return tags; }
 
 		const bool isInvalid() { return str_is_blank(description); }
@@ -38,7 +34,7 @@ class Event {
 		const bool isValidIn(Date date);
 
 		// event_string: a line that defines an event
-		Event(std::list<Rule*>* yearRules, std::list<Rule*>* monthRules, std::list<Rule*>* dayRules, Tags* tagsNew, std::string descriptionNew);
+		Event(std::list<Rule*>* rules, Tags* tags, std::string description);
 		Event(std::string str);
 };
 #endif // !H_CALENDAR_EVENT

@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <iostream>
 #include <string>
 #include "../event.h"
 #include "../rules/rule.h"
@@ -18,21 +19,13 @@ TEST(EventTest, ConstructorIncompleteDate) {
 TEST(EventTest, ConstructorNoSpaceBetweenDateAndDescription) {
 	Event event("28 02 2024this has no space in between!");
 
-	ASSERT_TRUE(event.getDayRules() != nullptr);
-	ASSERT_TRUE(event.getMonthRules() != nullptr);
-	ASSERT_TRUE(event.getYearRules() != nullptr);
+	ASSERT_TRUE(event.getRules() != nullptr);
 
-	std::list<Rule*> dayRules = *event.getDayRules();
-	std::list<Rule*> monthRules = *event.getMonthRules();
-	std::list<Rule*> yearRules = *event.getYearRules();
+	std::list<Rule*> rules = *event.getRules();
 
-	ASSERT_EQ(dayRules.size(), 1);
-	ASSERT_EQ(monthRules.size(), 1);
-	ASSERT_EQ(yearRules.size(), 1);
+	ASSERT_EQ(rules.size(), 1);
 
-	ASSERT_EQ(dynamic_cast<RuleFixed*>(dayRules.front())->getValue(), 28);
-	ASSERT_EQ(dynamic_cast<RuleFixed*>(monthRules.front())->getValue(), 2);
-	ASSERT_EQ(dynamic_cast<RuleFixed*>(yearRules.front())->getValue(), 2024);
+	ASSERT_EQ(dynamic_cast<RuleFixed*>(rules.front())->getValue(), 28);
 	ASSERT_EQ(event.getDescription(), std::string("this has no space in between!"));
 }
 
@@ -41,9 +34,9 @@ TEST(EventTest, ConstructorDateNoSpace) {
 }
 
 TEST(EventTest, DateNegativeYearMonthDay) {
-	ASSERT_THROW(Event("-12 31 2021 Day cant be negative!"), std::out_of_range);
-	ASSERT_THROW(Event("12 -31 2021 Month cant be negative!"), std::out_of_range);
-	ASSERT_THROW(Event("12 31 -2021 Year cant be negative!"), std::out_of_range);
+	ASSERT_THROW(Event("-12 31 2021 Day cant be negative!"), std::invalid_argument);
+	ASSERT_THROW(Event("12 -31 2021 Month cant be negative!"), std::invalid_argument);
+	ASSERT_THROW(Event("12 31 -2021 Year cant be negative!"), std::invalid_argument);
 }
 
 // // TODO: FIX THIS TO make it check for the syntax using the constructor or something idk
