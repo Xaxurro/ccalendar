@@ -1,7 +1,6 @@
 #include "rule.h"
 #include "../date.h"
 
-#define REGEX_FIXED_RANGE "(" REGEX_DAY_MONTH ")" REGEX_DATE_SEPARATOR "+(" REGEX_DAY_MONTH ")" REGEX_DATE_SEPARATOR "+(" REGEX_YEAR ")" REGEX_DATE_SEPARATOR "*-" REGEX_DATE_SEPARATOR "*(" REGEX_DAY_MONTH ")" REGEX_DATE_SEPARATOR "+(" REGEX_DAY_MONTH ")" REGEX_DATE_SEPARATOR "+(" REGEX_YEAR ")"
 
 class RuleFixedRange: public Rule {
 	private: 

@@ -11,7 +11,12 @@
 #include "tags.h"
 #include "rules/rule.h"
 
-#define EVENT_REGEX_STR "(\\d{1,2}|\\*|\\{[ \\d$]*\\}) (\\d{1,2}|\\*|\\{[ \\d]*\\}) (\\d{4}|\\*|\\{[ \\d]*\\}) *(\\[.*\\])? *(.*)"
+#define REGEX_TAG		"\\[.*\\]"
+#define REGEX_RULES_DAY		REGEX_WILDCARD "|" REGEX_DYNAMIC_RANGE_DAY_MONTH "|" REGEX_FIXED_DAY_MONTH "|" REGEX_DAY_OF_WEEK 
+#define REGEX_RULES_MONTH	REGEX_WILDCARD "|" REGEX_DYNAMIC_RANGE_DAY_MONTH "|" REGEX_FIXED_DAY_MONTH
+#define REGEX_RULES_YEAR	REGEX_WILDCARD "|" REGEX_DYNAMIC_RANGE_YEAR "|" REGEX_FIXED_YEAR
+
+#define EVENT_REGEX_STR "(" REGEX_RULES_DAY "|\\{(?:" REGEX_RULES_DAY "| )+})" REGEX_DATE_SEPARATOR "+(" REGEX_RULES_MONTH "|\\{(?:" REGEX_RULES_MONTH "| )+})" REGEX_DATE_SEPARATOR "+(" REGEX_RULES_YEAR "|\\{(?:" REGEX_RULES_YEAR "| )+})" REGEX_DATE_SEPARATOR "*(" REGEX_TAG ")? *(.*)"
 
 class Event {
 	private:
