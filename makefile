@@ -44,8 +44,12 @@ tests: date-test rules-test tags-test event-test
 tests-run:
 	./date.test & ./tags.test & ./event.test & ./rules.test
 
+regex:
+	$(cc) debug/regex.cpp $(event) $(rules.o) -o debug/regex.bin
+
 clean:
 	rm -f *.bin
+	rm -f debug/*.bin
 	rm -f *.test
 	rm -f *.o
 	rm -f rules/*.o
