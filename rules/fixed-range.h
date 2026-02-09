@@ -8,6 +8,7 @@ class RuleFixedRange: public Rule {
 		Date* upperLimit;
 		bool inbetween(int_least16_t value, int_least16_t lowerLimit, int_least16_t upperLimit);
 	public:
+		~RuleFixedRange();
 		RuleFixedRange(Date* lowerLimit, Date* upperLimit);
 		const Date* getLowerLimit() { return lowerLimit; };
 		const Date* getUpperLimit() { return upperLimit; };

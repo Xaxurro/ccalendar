@@ -2,7 +2,9 @@
 #define H_RULES
 
 #include <algorithm>
+#include <list>
 #include <stdexcept>
+#include <string>
 #include "../date.h"
 
 #define REGEX_DATE_SEPARATOR "[ \\t.:,;\\-_?!\\\\\\/|]"
@@ -35,6 +37,7 @@ class Rule {
 		}
 
 		const virtual bool isValidIn(Date* date) = 0;
+		virtual ~Rule() = default;
 };
 
 #endif // !H_RULES

@@ -1,6 +1,9 @@
 #include "dynamic-range.h"
 #include <stdexcept>
+#include <string>
 
+// Strips the XX and YY parts from the XX-YY format of the regex
+RuleDynamicRange::RuleDynamicRange(int_least16_t measure, std::string str): RuleDynamicRange(measure, std::stoi(str.substr(0, str.find('-'))), std::stoi(str.substr(str.find('-') + 1, str.size() - 1))) { }
 RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew) {
 	if (valueLowerNew > valueUpperNew) throw std::invalid_argument("Rule Dynamic Range can't have a lower value > upper value");
 	setMeasure(measure);

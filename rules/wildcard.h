@@ -2,5 +2,5 @@
 
 class RuleWildcard: public Rule {
 	public:
-          const bool isValidIn(Date* date);
+        	const bool isValidIn(Date* date);
 };

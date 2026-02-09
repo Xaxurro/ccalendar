@@ -2,6 +2,11 @@
 #include <cstdint>
 #include <stdexcept>
 
+RuleFixedRange::~RuleFixedRange() {
+	delete lowerLimit;
+	delete upperLimit;
+}
+
 RuleFixedRange::RuleFixedRange(Date* lowerLimit, Date* upperLimit) {
 	if (*lowerLimit > *upperLimit) throw std::invalid_argument("Rule Fixed Range: Lower Limit can't be after Upper Limit!");
 	this->lowerLimit = lowerLimit;
