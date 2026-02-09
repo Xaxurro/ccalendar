@@ -13,6 +13,7 @@ class Tags {
 
 		void addTag(std::string tagStr);
 	public:
+		Tags(std::string str);
 		size_t size() { return tags.size(); }
 
 		std::string operator [](std::string tagToSearch) { return tags[tagToSearch]; }

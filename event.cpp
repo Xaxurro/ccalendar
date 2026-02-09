@@ -4,6 +4,8 @@
 #include "rules/fixed.h"
 #include "rules/fixed-range.h"
 #include "rules/wildcard.h"
+#include <cstdint>
+#include <iostream>
 #include <regex>
 #include <stdexcept>
 #include <string>
@@ -11,6 +13,7 @@
 Event::~Event() {
 	for (Rule* rule : rules) delete rule;
 	rules.clear();
+	delete tags;
 }
 
 // event_string: a line that defines an event
@@ -18,6 +21,38 @@ Event::Event(std::list<Rule*>* rules, Tags* tags, std::string description) {
 	 this->rules = *rules;
 	 this->tags = tags;
 	 this->description = description;
+}
+
+const void Event::print(Date* date) {
+	std::cout << date->getDay() << " " << date->getMonth() << " " << date->getYear() << " ";
+	if (tags->has("bold")) {
+		std::cout << "\033[1m";
+	}
+	if (tags->has("italic")) {
+		std::cout << "\033[3m";
+	}
+	if (tags->has("underline")) {
+		std::cout << "\033[4m";
+	}
+	if (tags->has("blink")) {
+		std::cout << "\033[5m";
+	}
+	if (tags->has("inverse")) {
+		std::cout << "\033[7m";
+	}
+	if (tags->has("strike")) {
+		std::cout << "\033[9m";
+	}
+	// TODO: Add Dynamic Colors
+	if (tags->has("color")) {
+		int_least16_t r = 255;
+		int_least16_t g = 0;
+		int_least16_t b = 0;
+		std::cout << "\033[38;2;" << r << ";" << g << ";" << b << "m";
+	}
+	std::cout << description;
+	std::cout << "\033[0m";
+	std::cout << std::endl;
 }
 
 Event::Event(std::string str) {
@@ -40,7 +75,7 @@ Event::Event(std::string str) {
 	std::string day		= match[1];
 	std::string month	= match[2];
 	std::string year	= match[3];
-	std::string tags	= match[4];
+	this->tags		= new Tags(match[4]);
 	this->description	= match[5];
 
 	// Rule Day of Week

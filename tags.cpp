@@ -1,4 +1,13 @@
 #include "tags.h"
+#include <string>
+
+Tags::Tags(std::string str) {
+	if (str[0] == '[' && str[str.size() - 1] == ']') {
+		setTags(str.substr(1, str.size() - 2));
+		return;
+	}
+	setTags(str);
+}
 
 // Returns `true` if tag is present in tag list
 bool Tags::has(std::string tagToSearch) {

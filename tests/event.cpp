@@ -47,6 +47,13 @@ TEST(EventTest, RegexFailures) {
 	EXPECT_THROW(Event("28022024this has no spaces on Date!"), std::invalid_argument);
 }
 
+TEST(EventTest, print) {
+	std::cout << "\033[0m";
+	Event event("08 11 * [blinking color=red] My Birthday");
+	Date date(8, 11, 2002);
+	event.print(&date);
+}
+
 // // TODO: FIX THIS TO make it check for the syntax using the constructor or something idk
 // void checkTagSize(std::string str, size_t expectedSize) {
 // 	Tags tags;

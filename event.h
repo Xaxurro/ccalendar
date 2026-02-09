@@ -36,8 +36,8 @@ class Event {
 		const Tags* getTags() { return tags; }
 
 		const bool isInvalid() { return str_is_blank(description); }
-
 		const bool isValidIn(Date* date);
+		const void print(Date* date);
 
 		// event_string: a line that defines an event
 		Event(std::list<Rule*>* rules, Tags* tags, std::string description);
