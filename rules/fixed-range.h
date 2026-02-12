@@ -4,13 +4,13 @@
 
 class RuleFixedRange: public Rule {
 	private: 
-		Date* lowerLimit;
-		Date* upperLimit;
+		const Date lowerLimit;
+		const Date upperLimit;
 		bool inbetween(int_least16_t value, int_least16_t lowerLimit, int_least16_t upperLimit);
 	public:
 		~RuleFixedRange();
-		RuleFixedRange(Date* lowerLimit, Date* upperLimit);
-		const Date* getLowerLimit() { return lowerLimit; };
-		const Date* getUpperLimit() { return upperLimit; };
-		const bool isValidIn(Date* date);
+		RuleFixedRange(const Date& lower, const Date& upper);
+		const Date* getLowerLimit() { return &lowerLimit; };
+		const Date* getUpperLimit() { return &upperLimit; };
+		bool isValidIn(const Date* date);
 };

@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+#include <iostream>
+#include <ostream>
+#include <regex>
 #include <string>
 #include "../event.h"
 #include "../rules/rule.h"
@@ -8,7 +11,36 @@
 #include "../rules/fixed-range.h"
 #include "../rules/wildcard.h"
 
-TEST(EventTest, NoSpaceBetweenDateAndDescription) {
+TEST(EventTest, RuleDayOfWeek) {
+	Event event("#2 * * Minecraft Snapshot");
+
+	ASSERT_TRUE(event.getRules() != nullptr);
+
+	std::list<Rule*> rules = *event.getRules();
+
+	ASSERT_EQ(rules.size(), 3);
+
+	ASSERT_EQ(dynamic_cast<RuleDayOfWeek*>(rules.front())->getDay(), 2);
+
+	ASSERT_EQ(event.getDescription(), std::string("Minecraft Snapshot"));
+}
+
+TEST(EventTest, RuleDynamicRange) {
+	Event event("1-4 02 2024 Trip");
+
+	ASSERT_TRUE(event.getRules() != nullptr);
+
+	std::list<Rule*> rules = *event.getRules();
+
+	ASSERT_EQ(rules.size(), 3);
+
+	EXPECT_EQ(dynamic_cast<RuleDynamicRange*>(rules.front())->getValueLower(), 1);
+	EXPECT_EQ(dynamic_cast<RuleDynamicRange*>(rules.front())->getValueUpper(), 4);
+
+	ASSERT_EQ(event.getDescription(), std::string("Trip"));
+}
+
+TEST(EventTest, RuleFixed) {
 	Event event("28 02 2024this has no space in between!");
 
 	ASSERT_TRUE(event.getRules() != nullptr);
@@ -23,8 +55,33 @@ TEST(EventTest, NoSpaceBetweenDateAndDescription) {
 	ASSERT_EQ(event.getDescription(), std::string("this has no space in between!"));
 }
 
-TEST(EventTest, DynamicRangeRule) {
-	Event event("1-4 02 2024 Trip");
+TEST(EventTest, RuleFixedRange) {
+	Event event("29 1 2026 - 2 2 2026 Trip");
+
+	ASSERT_TRUE(event.getRules() != nullptr);
+
+	std::list<Rule*> rules = *event.getRules();
+
+	ASSERT_EQ(rules.size(), 1);
+
+	RuleFixedRange* rule = dynamic_cast<RuleFixedRange*>(rules.front());
+
+	ASSERT_TRUE(rule != nullptr);
+
+	const Date* upperLimit = rule->getUpperLimit();
+	const Date* lowerLimit = rule->getLowerLimit();
+
+	ASSERT_TRUE(upperLimit != nullptr);
+	ASSERT_TRUE(lowerLimit != nullptr);
+
+	EXPECT_EQ(*upperLimit, Date(2, 2, 2026));
+	EXPECT_EQ(*lowerLimit, Date(29, 1, 2026));
+
+	ASSERT_EQ(event.getDescription(), std::string("Trip"));
+}
+
+TEST(EventTest, RuleWildcard) {
+	Event event("28 02 2024this has no space in between!");
 
 	ASSERT_TRUE(event.getRules() != nullptr);
 
@@ -32,10 +89,10 @@ TEST(EventTest, DynamicRangeRule) {
 
 	ASSERT_EQ(rules.size(), 3);
 
-	EXPECT_EQ(dynamic_cast<RuleDynamicRange*>(rules.front())->getValueLower(), 1);
-	EXPECT_EQ(dynamic_cast<RuleDynamicRange*>(rules.front())->getValueUpper(), 4);
+	Date date(28, 2, 2024);
+	ASSERT_TRUE(event.isValidIn(&date));
 
-	ASSERT_EQ(event.getDescription(), std::string("Trip"));
+	ASSERT_EQ(event.getDescription(), std::string("this has no space in between!"));
 }
 
 TEST(EventTest, RegexFailures) {

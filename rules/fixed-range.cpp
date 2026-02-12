@@ -1,19 +1,13 @@
 #include "fixed-range.h"
-#include <cstdint>
 #include <stdexcept>
 
-RuleFixedRange::~RuleFixedRange() {
-	delete lowerLimit;
-	delete upperLimit;
+RuleFixedRange::~RuleFixedRange() {}
+
+RuleFixedRange::RuleFixedRange(const Date &lower,const  Date &upper): lowerLimit(lower), upperLimit(upper){
+	if (lowerLimit > upperLimit) throw std::invalid_argument("Rule Fixed Range: Lower Limit can't be after Upper Limit!");
 }
 
-RuleFixedRange::RuleFixedRange(Date* lowerLimit, Date* upperLimit) {
-	if (*lowerLimit > *upperLimit) throw std::invalid_argument("Rule Fixed Range: Lower Limit can't be after Upper Limit!");
-	this->lowerLimit = lowerLimit;
-	this->upperLimit = upperLimit;
-}
-
-const bool RuleFixedRange::isValidIn(Date* date) {
-	if (*date < *lowerLimit || *date > *upperLimit) return false;
+bool RuleFixedRange::isValidIn(const Date* date) {
+	if (*date < lowerLimit || *date > upperLimit) return false;
 	return true;
 }

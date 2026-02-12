@@ -12,7 +12,7 @@ int_least16_t str_find_tag_clousure(std::string str, char opening, char closure)
 	//Searches for [...] at the start of description, returns -1 if NOT found, otherwise the index of the ']' character
 	//also returns -1 when the initial character isn't tag opening
 	if (str[0] != opening) return -1;
-	int_least16_t tagClosureIndex = str.find_first_of(closure);
+	size_t tagClosureIndex = str.find_first_of(closure);
 	if (tagClosureIndex == str.npos) return -1;
 	return tagClosureIndex;
 }

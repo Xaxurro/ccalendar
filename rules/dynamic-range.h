@@ -8,7 +8,7 @@ class RuleDynamicRange: public Rule {
 	public:
 		RuleDynamicRange(int_least16_t measure, std::string str);
 		RuleDynamicRange(int_least16_t measure, int_least16_t valueLowerNew, int_least16_t valueUpperNew);
-		const int_least16_t getValueLower() { return valueLower; };
-		const int_least16_t getValueUpper() { return valueUpper; };
-		const bool isValidIn(Date* date);
+		int_least16_t getValueLower() { return valueLower; };
+		int_least16_t getValueUpper() { return valueUpper; };
+		bool isValidIn(const Date* date);
 };

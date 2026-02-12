@@ -1,30 +1,38 @@
-cc = clang++
-cco = clang++ -c
-ccd = clang++ -fsanitize=address -g -lgtest -lgtest_main
+COMPILER = clang++
+DEBUG = true
+FLAGS_DEBUG = -fsanitize=address -g -Wall -Wextra
+GTEST = -lgtest -lgtest_main
+FLAGS = 
+
+TESTS = date.test rules.test tags.test event.test
+
+ifeq ($(DEBUG),true)
+	FLAGS += $(FLAGS_DEBUG)
+endif
 
 event.o = event.o strings.o date.o tags.o
 rules = $(wildcard rules/*.cpp)
 rules.o = $(rules:.cpp=.o)
 
-tests: date.test rules.test tags.test event.test
+tests: $(TESTS)
 
 tests-run:
 	./date.test && ./tags.test && ./event.test && ./rules.test
 
 date.test: tests/date.cpp date.o 
-	$(ccd) $^ -o $@
+	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
 rules.test: tests/rules.cpp date.o $(rules.o)
-	$(ccd) $^ -o $@
+	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
 tags.test: tests/tags.cpp tags.o strings.o
-	$(ccd) $^  -o $@
+	$(COMPILER) $(FLAGS) $^  -o $@ $(GTEST)
 
 event.test: tests/event.cpp $(event.o) $(rules.o)
-	$(ccd) $^ -o $@
+	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
 regex:
-	$(cc) debug/regex.cpp $(event.o) $(rules.o) -o debug/regex.bin
+	$(COMPILER) debug/regex.cpp $(event.o) $(rules.o) -o debug/regex.bin
 
 clean:
 	rm -f *.bin
@@ -34,4 +42,4 @@ clean:
 	rm -f rules/*.o
 
 %.o: %.cpp
-	$(cco) $^ -o $@
+	$(COMPILER) -c $(FLAGS) $^ -o $@

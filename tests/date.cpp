@@ -70,6 +70,10 @@ TEST(DateTest, DaysSubstracted) {
 	EXPECT_EQ(date_past.getYear(), 2009);
 }
 
+TEST(DateTest, IncorrectConstructor) {
+	ASSERT_THROW(Date(1000, 1000, 1000), std::out_of_range);
+}
+
 TEST(DateTest, Equals) {
 	Date dateToCompare(10, 6, 2002);
 	EXPECT_TRUE(dateToCompare == Date(10, 6, 2002));

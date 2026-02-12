@@ -16,7 +16,7 @@ RuleFixed::RuleFixed(int_least16_t measure, int_least16_t valueNew) {
 	value = valueNew;
 }
 
-const bool RuleFixed::isValidIn(Date* date) {
+bool RuleFixed::isValidIn(const Date* date) {
 	switch(measure) {
 	case DAY: {
 		int_least16_t maxDay = date->maxDayIn(date->getMonth(), date->getYear());

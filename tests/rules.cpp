@@ -60,14 +60,14 @@ TEST(RangedDynamic, InvertedValues) {
 TEST(RangedFixed, InvertedLimits) {
 	Date lowerLimit(01, 6, 2009);
 	Date upperLimit(01, 7, 2009);
-	EXPECT_THROW(RuleFixedRange(&upperLimit, &lowerLimit), std::invalid_argument);
+	EXPECT_THROW(RuleFixedRange(upperLimit, lowerLimit), std::invalid_argument);
 }
 
 TEST(RangedFixed, MatchingValues) {
 	Date date(9, 5, 2009);
 	Date lowerLimit(15, 04, 2009);
 	Date upperLimit(04, 06, 2009);
-	RuleFixedRange rule(&lowerLimit, &upperLimit);
+	RuleFixedRange rule(lowerLimit, upperLimit);
 	EXPECT_TRUE(rule.isValidIn(&date));
 }
 

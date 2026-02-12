@@ -1,5 +1,5 @@
 #include "wildcard.h"
 
-const bool RuleWildcard::isValidIn(Date* date) {
+bool RuleWildcard::isValidIn(const Date* date) {
 	return true;
 }

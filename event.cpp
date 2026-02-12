@@ -23,8 +23,8 @@ Event::Event(std::list<Rule*>* rules, Tags* tags, std::string description) {
 	 this->description = description;
 }
 
-const void Event::print(Date* date) {
-	std::cout << date->getDay() << " " << date->getMonth() << " " << date->getYear() << " ";
+void Event::print(const Date* date) {
+	std::cout << date->toString() << " ";
 	if (tags->has("bold")) {
 		std::cout << "\033[1m";
 	}
@@ -64,8 +64,11 @@ Event::Event(std::string str) {
 	if (std::regex_match(str, match, fixedRangeEventRegex)) {
 		Date lowerLimit(std::stoi(match[1]), std::stoi(match[2]), std::stoi(match[3]));
 		Date upperLimit(std::stoi(match[4]), std::stoi(match[5]), std::stoi(match[6]));
-		RuleFixedRange rule(&lowerLimit, &upperLimit);
-		rules.push_back(&rule);
+
+		this->tags		= new Tags(match[7]);
+		this->description	= match[8];
+
+		rules.push_back(new RuleFixedRange (lowerLimit, upperLimit));
 		return;
 	}
 
@@ -112,12 +115,18 @@ Event::Event(std::string str) {
 
 	// Discuss if I should just get rid of the Wildcard Rule
 	// Rule Wildcard
-	if (std::regex_match(day, std::regex("^" REGEX_WILDCARD "$")) || std::regex_match(month, std::regex("^" REGEX_WILDCARD "$")) || std::regex_match(year, std::regex("^" REGEX_WILDCARD "$"))) {
+	if (std::regex_match(day, std::regex("^" REGEX_WILDCARD "$"))) {
+		rules.push_back(new RuleWildcard);
+	}
+	if (std::regex_match(month, std::regex("^" REGEX_WILDCARD "$"))) {
+		rules.push_back(new RuleWildcard);
+	}
+	if (std::regex_match(year, std::regex("^" REGEX_WILDCARD "$"))) {
 		rules.push_back(new RuleWildcard);
 	}
 }
 
-const bool Event::isValidIn(Date* date) {
+bool Event::isValidIn(const Date* date) {
 	for (Rule* rule : rules) {
 		if (!rule->isValidIn(date)) return false;
 	}

@@ -25,7 +25,7 @@ RuleDynamicRange::RuleDynamicRange(int_least16_t measure, int_least16_t valueLow
 	valueUpper = valueUpperNew;
 }
 
-const bool RuleDynamicRange::isValidIn(Date* date) {
+bool RuleDynamicRange::isValidIn(const Date* date) {
 	switch(measure) {
 	case DAY: {
 		int_least16_t maxDay = date->maxDayIn(date->getMonth(), date->getYear());

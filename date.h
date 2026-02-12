@@ -24,14 +24,14 @@
 
 class Date {
 	private:
-		int_least16_t year = 0;
-		int_least16_t month = 0;
 		int_least16_t day = 0;
+		int_least16_t month = 0;
+		int_least16_t year = 0;
 
 		void checkExistance() const;
 
 	public:
-		std::string toString() const { return std::to_string(year) + " " + std::to_string(month) + " " + std::to_string(day); }
+		std::string toString() const { return std::to_string(day) + " " + std::to_string(month) + " " + std::to_string(year); }
 		bool isInvalid() const { return year == 0 || month == 0 || day == 0; }
 
 		Date () {};
@@ -57,11 +57,11 @@ class Date {
 		Date operator + (int_least16_t days);
 		Date operator - (int_least16_t days);
 
-		bool operator > (Date day);
-		bool operator < (Date day);
-		bool operator == (Date day);
-		bool operator != (Date day);
-		bool operator >= (Date day);
-		bool operator <= (Date day);
+		bool operator >  (const Date& day) const;
+		bool operator <  (const Date& day) const;
+		bool operator == (const Date& day) const;
+		bool operator != (const Date& day) const;
+		bool operator >= (const Date& day) const;
+		bool operator <= (const Date& day) const;
 };
 #endif

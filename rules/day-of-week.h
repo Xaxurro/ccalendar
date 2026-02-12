@@ -8,6 +8,6 @@ class RuleDayOfWeek: public Rule {
 	public:
 		RuleDayOfWeek(const std::string& str);
 		RuleDayOfWeek(int_least16_t day);
-		const int_least16_t getDay() { return day; };
-		const bool isValidIn(Date* date);
+		int_least16_t getDay() { return day; };
+		bool isValidIn(const Date* date);
 };
