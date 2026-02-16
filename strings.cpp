@@ -30,3 +30,13 @@ std::string str_trim_left(std::string str) {
 	}
 	return str.substr(index);
 }
+
+//Searches in `str` all ocurrences of `strToSearch` and replaces them with `strToReplace`
+void str_replace(std::string strToSearch, std::string strToReplace, std::string* str) {
+	size_t ocurrence = str->find(strToSearch);
+	while (ocurrence != std::string::npos) {
+		str->replace(ocurrence, strToSearch.size(), strToReplace);
+		ocurrence = str->find(strToSearch, ocurrence + strToReplace.size());
+	}
+}
+

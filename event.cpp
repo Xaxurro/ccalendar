@@ -1,10 +1,12 @@
 #include "event.h"
 #include "colors.h"
+#include "string.h"
 #include "rules/day-of-week.h"
 #include "rules/dynamic-range.h"
 #include "rules/fixed.h"
 #include "rules/fixed-range.h"
 #include "rules/wildcard.h"
+#include <string>
 
 Event::~Event() {
 	for (Rule* rule : rules) delete rule;
@@ -44,6 +46,17 @@ void Event::print(const Date* date) {
 		std::string colorName = (*tags)["color"];
 		std::array<int_least16_t, 3> color = *Colors::get(colorName);
 		std::cout << "\033[38;2;" << color[0] << ";" << color[1] << ";" << color[2] << "m";
+	}
+
+	str_replace("\\d", std::to_string(date->getDay()), &description);
+	str_replace("\\m", std::to_string(date->getMonth()), &description);
+	str_replace("\\y", std::to_string(date->getYear()), &description);
+
+	for (Rule* rule : rules) {
+		RuleWildcard* ruleWildcard = dynamic_cast<RuleWildcard*>(rule);
+		if (ruleWildcard == nullptr) continue;
+		if (!ruleWildcard->hasInitialYear()) continue;
+		str_replace("\\Y", std::to_string(date->getYear() - ruleWildcard->getInitialYear()), &description);
 	}
 
 	std::cout << description;

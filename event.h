@@ -49,7 +49,6 @@ class Event {
 		std::string description = "";
 
 		void parseRules(std::smatch match);
-
 	public:
 		const std::string getDescription() { return description; }
 		const std::list<Rule*>* getRules() { return &rules; }

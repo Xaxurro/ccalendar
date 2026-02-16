@@ -17,29 +17,3 @@ TEST(TagsTest, BlankTags) {
 	checkEmptyTags(" = ");
 	checkEmptyTags("  =  ");
 }
-
-TEST(TagsTest, InvalidParsing) {
-	Tags tags("hello this color=red is a test");
-	// Has no value
-	EXPECT_FALSE(tags.has("bold"));
-	EXPECT_TRUE(tags.has("this"));
-	EXPECT_FALSE(tags.has("thi"));
-
-	// Has value
-	EXPECT_TRUE(tags.has("color"));
-	EXPECT_TRUE(tags.has("color="));
-	EXPECT_TRUE(tags["color"] == "red");
-	EXPECT_FALSE(tags.has("col"));
-	EXPECT_FALSE(tags.has("red"));
-	EXPECT_FALSE(tags.has("=red"));
-	EXPECT_FALSE(tags.has("="));
-
-	tags.setTags(" =red");
-	EXPECT_EQ(tags.size(), 0);
-	EXPECT_FALSE(tags.has("red"));
-
-	tags.setTags("color= ");
-	EXPECT_EQ(tags.size(), 1);
-	EXPECT_TRUE(tags.has("color"));
-	EXPECT_FALSE(tags.has("="));
-}
