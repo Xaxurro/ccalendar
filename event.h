@@ -3,6 +3,7 @@
 
 #include <cctype>
 #include <list>
+#include <regex>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -46,6 +47,8 @@ class Event {
 		std::list<Rule*> rules;
 		Tags* tags;
 		std::string description = "";
+
+		void parseRules(std::smatch match);
 
 	public:
 		const std::string getDescription() { return description; }

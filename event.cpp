@@ -5,12 +5,6 @@
 #include "rules/fixed.h"
 #include "rules/fixed-range.h"
 #include "rules/wildcard.h"
-#include <array>
-#include <cstdint>
-#include <iostream>
-#include <regex>
-#include <stdexcept>
-#include <string>
 
 Event::~Event() {
 	for (Rule* rule : rules) delete rule;
@@ -51,6 +45,7 @@ void Event::print(const Date* date) {
 		std::array<int_least16_t, 3> color = *Colors::get(colorName);
 		std::cout << "\033[38;2;" << color[0] << ";" << color[1] << ";" << color[2] << "m";
 	}
+
 	std::cout << description;
 	std::cout << "\033[0m";
 	std::cout << std::endl;
@@ -76,6 +71,10 @@ Event::Event(std::string str) {
 	std::regex eventRegex(EVENT_REGEX_STR);
 	if (!std::regex_match(str, match, eventRegex)) throw std::invalid_argument("EVENT: Does not match EVENT_REGEX or EVENT_FIXED_RANGE_REGEX");
 
+	parseRules(match);
+}
+
+void Event::parseRules(std::smatch match) {
 	std::string day		= match[1];
 	std::string month	= match[2];
 	std::string year	= match[3];
