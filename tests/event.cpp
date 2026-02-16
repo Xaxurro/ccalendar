@@ -23,6 +23,9 @@ TEST(EventTest, RuleDayOfWeek) {
 
 	ASSERT_EQ(dynamic_cast<RuleDayOfWeek*>(rules.front())->getDay(), 2);
 
+	Date date(17, 2, 2026);
+	ASSERT_TRUE(event.isValidIn(&date));
+
 	ASSERT_EQ(event.getDescription(), std::string("Minecraft Snapshot"));
 }
 
@@ -37,6 +40,9 @@ TEST(EventTest, RuleDynamicRange) {
 
 	EXPECT_EQ(dynamic_cast<RuleDynamicRange*>(rules.front())->getValueLower(), 1);
 	EXPECT_EQ(dynamic_cast<RuleDynamicRange*>(rules.front())->getValueUpper(), 4);
+
+	Date date(2, 2, 2024);
+	ASSERT_TRUE(event.isValidIn(&date));
 
 	ASSERT_EQ(event.getDescription(), std::string("Trip"));
 }
@@ -75,6 +81,9 @@ TEST(EventTest, RuleFixedRange) {
 	ASSERT_TRUE(upperLimit != nullptr);
 	ASSERT_TRUE(lowerLimit != nullptr);
 
+	Date date(1, 2, 2026);
+	ASSERT_TRUE(event.isValidIn(&date));
+
 	EXPECT_EQ(*upperLimit, Date(2, 2, 2026));
 	EXPECT_EQ(*lowerLimit, Date(29, 1, 2026));
 
@@ -82,7 +91,7 @@ TEST(EventTest, RuleFixedRange) {
 }
 
 TEST(EventTest, RuleWildcard) {
-	Event event("28 02 2024this has no space in between!");
+	Event event("08 11 * My Birthday!");
 
 	ASSERT_TRUE(event.getRules() != nullptr);
 
@@ -90,10 +99,10 @@ TEST(EventTest, RuleWildcard) {
 
 	ASSERT_EQ(rules.size(), 3);
 
-	Date date(28, 2, 2024);
+	Date date(8, 11, 2024);
 	ASSERT_TRUE(event.isValidIn(&date));
 
-	ASSERT_EQ(event.getDescription(), std::string("this has no space in between!"));
+	ASSERT_EQ(event.getDescription(), std::string("My Birthday!"));
 }
 
 TEST(EventTest, RegexFailures) {
@@ -106,19 +115,53 @@ TEST(EventTest, RegexFailures) {
 }
 
 TEST(EventTest, Print) {
+	//Change std::cout buffer
+	std::stringstream capturedOutput;
+	std::streambuf* originalCoutBuf = std::cout.rdbuf();
+	std::cout.rdbuf(capturedOutput.rdbuf());
+
 	std::cout << "\033[0m";
-	Colors::add("purple", {255, 0, 255});
-	Event event("08 11 * [blinking color=purple bold underline] My Birthday");
+	Colors::add("red", {224, 27, 36});
+	Event event("08 11 * [color=red bold underline] My Birthday");
 	Date date(8, 11, 2002);
 	event.print(&date);
+
+	std::cout.rdbuf(originalCoutBuf);
+	std::string expectedOutput("\033[0m8 11 2002 \033[1m\033[4m\033[38;2;224;27;36mMy Birthday\033[0m\n");
+	ASSERT_EQ(capturedOutput.str(), expectedOutput);
 }
 
 TEST(ColorTest, AddAndGet) {
 	Colors::add("purple", {255, 0, 255});
-	std::array<int, 3> purple = *Colors::get("purple");
+	std::array<int_least16_t, 3> purple = *Colors::get("purple");
 	EXPECT_TRUE(purple[0] == 255);
 	EXPECT_TRUE(purple[1] == 0);
 	EXPECT_TRUE(purple[2] == 255);
+}
+
+TEST(ColorTest, InvalidAddition) {
+	EXPECT_THROW(Colors::add("overflow", {256, 256, 256}), std::invalid_argument);
+	EXPECT_THROW(Colors::add("negative", {-1, -1, -1}), std::invalid_argument);
+	EXPECT_THROW(Colors::add("this name is wrong", {255, 255, 255}), std::invalid_argument);
+}
+
+TEST(ColorTest, NonExistingColor) {
+	std::array<int_least16_t, 3> white = *Colors::get("idontexist");
+	EXPECT_TRUE(white[0] == 255);
+	EXPECT_TRUE(white[1] == 255);
+	EXPECT_TRUE(white[2] == 255);
+}
+
+TEST(ColorTest, Replace) {
+	Colors::add("green", {0, 255, 0});
+	std::array<int_least16_t, 3> green = *Colors::get("green");
+	EXPECT_TRUE(green[0] == 0);
+	EXPECT_TRUE(green[1] == 255);
+	EXPECT_TRUE(green[2] == 0);
+
+	Colors::add("green", {0, 254, 0});
+	green = *Colors::get("green");
+	EXPECT_TRUE(green[1] == 254);
 }
 
 // // TODO: FIX THIS TO make it check for the syntax using the constructor or something idk

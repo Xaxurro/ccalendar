@@ -48,7 +48,7 @@ void Event::print(const Date* date) {
 	// TODO: Add Dynamic Colors
 	if (tags->has("color")) {
 		std::string colorName = (*tags)["color"];
-		std::array<int, 3> color = *Colors::get(colorName);
+		std::array<int_least16_t, 3> color = *Colors::get(colorName);
 		std::cout << "\033[38;2;" << color[0] << ";" << color[1] << ";" << color[2] << "m";
 	}
 	std::cout << description;
