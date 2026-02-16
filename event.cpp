@@ -83,46 +83,50 @@ Event::Event(std::string str) {
 	this->description	= match[5];
 
 	// Rule Day of Week
-	if (std::regex_match(day, std::regex("^" REGEX_DAY_OF_WEEK "$"))) {
+	if (std::regex_search(day, std::regex("^" REGEX_DAY_OF_WEEK "$"))) {
 		RuleDayOfWeek rule(day);
 		rules.push_back(new RuleDayOfWeek(day));
 	}
 
 	// Rule Dynamic Range
-	if (std::regex_match(day, std::regex("^" REGEX_DYNAMIC_RANGE_DAY_MONTH "$"))) {
+	if (std::regex_search(day, std::regex("^" REGEX_DYNAMIC_RANGE_DAY_MONTH "$"))) {
 		rules.push_back(new RuleDynamicRange(DAY, day));
 	}
 
-	if (std::regex_match(month, std::regex("^" REGEX_DYNAMIC_RANGE_DAY_MONTH "$"))) {
+	if (std::regex_search(month, std::regex("^" REGEX_DYNAMIC_RANGE_DAY_MONTH "$"))) {
 		rules.push_back(new RuleDynamicRange (MONTH, month));
 	}
 
-	if (std::regex_match(year, std::regex("^" REGEX_DYNAMIC_RANGE_YEAR "$"))) {
+	if (std::regex_search(year, std::regex("^" REGEX_DYNAMIC_RANGE_YEAR "$"))) {
 		rules.push_back(new RuleDynamicRange (YEAR, year));
 	}
 
 	// Rule Fixed
-	if (std::regex_match(day, std::regex("^" REGEX_FIXED_DAY_MONTH "$"))) {
+	if (std::regex_search(day, std::regex("^" REGEX_FIXED_DAY_MONTH "$"))) {
 		rules.push_back(new RuleFixed (DAY, std::stoi(day)));
 	}
 
-	if (std::regex_match(month, std::regex("^" REGEX_FIXED_DAY_MONTH "$"))) {
+	if (std::regex_search(month, std::regex("^" REGEX_FIXED_DAY_MONTH "$"))) {
 		rules.push_back(new RuleFixed (MONTH, std::stoi(month)));
 	}
 
-	if (std::regex_match(year, std::regex("^" REGEX_FIXED_YEAR "$"))) {
+	if (std::regex_search(year, std::regex("^" REGEX_FIXED_YEAR "$"))) {
 		rules.push_back(new RuleFixed (YEAR, std::stoi(year)));
 	}
 
-	// Discuss if I should just get rid of the Wildcard Rule
 	// Rule Wildcard
-	if (std::regex_match(day, std::regex("^" REGEX_WILDCARD "$"))) {
+	if (std::regex_search(day, std::regex("^" REGEX_WILDCARD "$"))) {
 		rules.push_back(new RuleWildcard);
 	}
-	if (std::regex_match(month, std::regex("^" REGEX_WILDCARD "$"))) {
+	if (std::regex_search(month, std::regex("^" REGEX_WILDCARD "$"))) {
 		rules.push_back(new RuleWildcard);
 	}
-	if (std::regex_match(year, std::regex("^" REGEX_WILDCARD "$"))) {
+	if (std::regex_search(year, std::regex("^" REGEX_WILDCARD "$"))) {
+		if (year.size() > 1) {
+			int_least16_t initialYear = std::stoi(year.substr(0, 3));
+			rules.push_back(new RuleWildcard(initialYear));
+			return;
+		}
 		rules.push_back(new RuleWildcard);
 	}
 }

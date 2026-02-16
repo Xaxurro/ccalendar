@@ -77,6 +77,12 @@ TEST(Wildcard, AssertNoFalses) {
 	EXPECT_TRUE(rule.isValidIn(&date));
 }
 
+TEST(Wildcard, InitialYear) {
+	Date date(8, 11, 2026);
+	RuleWildcard rule(2002);
+	EXPECT_TRUE(rule.hasInitialYear());
+}
+
 TEST(DayOfWeek, getDayOfWeek) {
 	// 31 of December is a THURSDAY
 	Date date(31, 12, 2026);

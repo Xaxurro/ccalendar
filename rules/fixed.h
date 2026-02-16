@@ -1,3 +1,5 @@
+#ifndef H_CALENDAR_FIXED
+#define H_CALENDAR_FIXED
 #include "rule.h"
 
 class RuleFixed: public Rule {
@@ -8,3 +10,4 @@ class RuleFixed: public Rule {
 		int_least16_t getValue() { return value; };
 		bool isValidIn(const Date* date);
 };
+#endif //H_CALENDAR_FIXED

@@ -1,6 +1,7 @@
+#ifndef H_CALENDAR_RULE_FIXED_RANGE
+#define H_CALENDAR_RULE_FIXED_RANGE
 #include "rule.h"
 #include "../date.h"
-
 
 class RuleFixedRange: public Rule {
 	private: 
@@ -14,3 +15,4 @@ class RuleFixedRange: public Rule {
 		const Date* getUpperLimit() { return &upperLimit; };
 		bool isValidIn(const Date* date);
 };
+#endif //H_CALENDAR_RULE_FIXED_RANGE

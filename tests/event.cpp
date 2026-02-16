@@ -56,6 +56,11 @@ TEST(EventTest, RuleFixed) {
 
 	ASSERT_EQ(rules.size(), 3);
 
+	RuleFixed* rule = dynamic_cast<RuleFixed*>(rules.front());
+	ASSERT_TRUE(rule != nullptr);
+
+	EXPECT_EQ(rule->getValue(), 28);
+
 	Date date(28, 2, 2024);
 	ASSERT_TRUE(event.isValidIn(&date));
 
@@ -91,7 +96,7 @@ TEST(EventTest, RuleFixedRange) {
 }
 
 TEST(EventTest, RuleWildcard) {
-	Event event("08 11 * My Birthday!");
+	Event event("08 11 2002* My Birthday!");
 
 	ASSERT_TRUE(event.getRules() != nullptr);
 

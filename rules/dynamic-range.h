@@ -1,5 +1,6 @@
+#ifndef H_CALENDAR_RULE_DYNAMIC_RANGE
+#define H_CALENDAR_RULE_DYNAMIC_RANGE
 #include "rule.h"
-
 
 class RuleDynamicRange: public Rule {
 	private: 
@@ -12,3 +13,4 @@ class RuleDynamicRange: public Rule {
 		int_least16_t getValueUpper() { return valueUpper; };
 		bool isValidIn(const Date* date);
 };
+#endif //H_CALENDAR_RULE_DYNAMIC_RANGE

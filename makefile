@@ -17,7 +17,7 @@ rules.o = $(rules:.cpp=.o)
 tests: $(TESTS)
 
 tests-run:
-	./date.test && ./tags.test && ./event.test && ./rules.test
+	./date.test && ./tags.test && ./rules.test && ./event.test
 
 date.test: tests/date.cpp date.o 
 	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)

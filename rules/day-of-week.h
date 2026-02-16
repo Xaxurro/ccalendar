@@ -1,3 +1,5 @@
+#ifndef H_CALENDAR_RULE_DAY_OF_WEEK
+#define H_CALENDAR_RULE_DAY_OF_WEEK
 #include "rule.h"
 #include "../date.h"
 #include <string>
@@ -11,3 +13,4 @@ class RuleDayOfWeek: public Rule {
 		int_least16_t getDay() { return day; };
 		bool isValidIn(const Date* date);
 };
+#endif // !H_CALENDAR_RULE_DAY_OF_WEEK
