@@ -4,6 +4,7 @@
 #include <regex>
 #include <string>
 #include "../event.h"
+#include "../colors.h"
 #include "../rules/rule.h"
 #include "../rules/day-of-week.h"
 #include "../rules/dynamic-range.h"
@@ -104,11 +105,20 @@ TEST(EventTest, RegexFailures) {
 	EXPECT_THROW(Event("28022024this has no spaces on Date!"), std::invalid_argument);
 }
 
-TEST(EventTest, print) {
+TEST(EventTest, Print) {
 	std::cout << "\033[0m";
-	Event event("08 11 * [blinking color=red] My Birthday");
+	Colors::add("purple", {255, 0, 255});
+	Event event("08 11 * [blinking color=purple bold underline] My Birthday");
 	Date date(8, 11, 2002);
 	event.print(&date);
+}
+
+TEST(ColorTest, AddAndGet) {
+	Colors::add("purple", {255, 0, 255});
+	std::array<int, 3> purple = *Colors::get("purple");
+	EXPECT_TRUE(purple[0] == 255);
+	EXPECT_TRUE(purple[1] == 0);
+	EXPECT_TRUE(purple[2] == 255);
 }
 
 // // TODO: FIX THIS TO make it check for the syntax using the constructor or something idk

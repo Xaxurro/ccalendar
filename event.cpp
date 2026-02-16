@@ -1,9 +1,11 @@
 #include "event.h"
+#include "colors.h"
 #include "rules/day-of-week.h"
 #include "rules/dynamic-range.h"
 #include "rules/fixed.h"
 #include "rules/fixed-range.h"
 #include "rules/wildcard.h"
+#include <array>
 #include <cstdint>
 #include <iostream>
 #include <regex>
@@ -45,10 +47,9 @@ void Event::print(const Date* date) {
 	}
 	// TODO: Add Dynamic Colors
 	if (tags->has("color")) {
-		int_least16_t r = 255;
-		int_least16_t g = 0;
-		int_least16_t b = 0;
-		std::cout << "\033[38;2;" << r << ";" << g << ";" << b << "m";
+		std::string colorName = (*tags)["color"];
+		std::array<int, 3> color = *Colors::get(colorName);
+		std::cout << "\033[38;2;" << color[0] << ";" << color[1] << ";" << color[2] << "m";
 	}
 	std::cout << description;
 	std::cout << "\033[0m";
