@@ -56,6 +56,7 @@ class Event {
 
 		bool isInvalid() { return str_is_blank(description); }
 		bool isValidIn(const Date* date);
+		bool hasLabel(const std::string label);
 		void print(const Date* date);
 
 		// event_string: a line that defines an event

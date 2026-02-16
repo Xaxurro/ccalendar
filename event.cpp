@@ -149,3 +149,8 @@ bool Event::isValidIn(const Date* date) {
 	}
 	return true;
 }
+
+bool Event::hasLabel(const std::string label) {
+	if (!tags->has("label")) return false;
+	return (*tags)["label"] == label;
+}
