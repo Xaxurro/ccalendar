@@ -5,14 +5,15 @@
 #include <string>
 
 #define CALENDAR_EXTENSION ".cldr"
-#define DIRECTORY_DEFAULT "$HOME/calendar"
+#define DIRECTORY_DEFAULT "/calendar"
 #define DIRECTORY_ENV "CALENDAR_DIRECTORY"
 
 namespace files {
 	std::filesystem::path rootDirectory;
 
 	void setRootDirectory() {
-		setenv(DIRECTORY_ENV, DIRECTORY_DEFAULT, 0);
+		std::string homeDir = std::string(getenv("HOME"));
+		setenv(DIRECTORY_ENV, (homeDir + std::string(DIRECTORY_DEFAULT)).c_str(), 0);
 		rootDirectory = getenv(DIRECTORY_ENV);
 	}
 	
@@ -58,9 +59,18 @@ namespace files {
 		std::ifstream eventFile(path);
 		std::string line;
 		while (std::getline(eventFile, line)) {
-			if (line.substr(0, 1) == "#") continue;
+			if (line.substr(0, 2) == "//") continue;
+			if (line.size() == 0) continue;
 			events.push_back(new Event(line));
 		}
 		return events;
+	}
+
+	void readColorsFile() {
+		std::ifstream colorFile(getFileColors());
+		std::string line;
+		while (std::getline(colorFile, line)) {
+
+		}
 	}
 }

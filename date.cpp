@@ -1,6 +1,7 @@
 #include "date.h"
 #include <cmath>
 #include <cstdint>
+#include <ctime>
 #include <stdexcept>
 
 void Date::checkExistance() const {
@@ -23,6 +24,12 @@ void Date::checkExistance() const {
 	}
 	if (month == APRIL || month == JUNE || month == SEPTEMBER || month == NOVEMBER) return 30;
 	return 31;
+}
+
+Date Date::today() {
+	time_t now = time(0);
+	tm* localTime = localtime(&now);
+	return Date(localTime->tm_mday, localTime->tm_mon + 1, localTime->tm_year + 1900);
 }
 
 void Date::setYear(int_least16_t year_new) {
@@ -69,6 +76,10 @@ int_least16_t Date::getDayOfTheWeek() const {
 	dayOfTheWeek %= 7;
 	if (dayOfTheWeek == 0) return SUNDAY;
 	return dayOfTheWeek;
+}
+
+int_least16_t Date::getYearsAfter(int_least16_t year) const {
+	return this->year - year;
 }
 
 Date Date::operator+(int_least16_t days_added) {

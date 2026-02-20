@@ -45,10 +45,14 @@ class Date {
 
 		static int_least16_t maxDayIn(int_least16_t month, int_least16_t year);
 
+		//TODO TEST THIS FUNCTION
+		static Date today();
+
 		int_least16_t getYear() const { return year; }
 		int_least16_t getMonth() const { return month; }
 		int_least16_t getDay() const { return day; }
 		int_least16_t getDayOfTheWeek() const;
+		int_least16_t getYearsAfter(int_least16_t year) const;
 
 		void setYear(int_least16_t year_new);
 		void setMonth(int_least16_t month_new);

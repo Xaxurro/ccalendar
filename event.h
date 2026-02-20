@@ -53,7 +53,7 @@ class Event {
 		const std::list<Rule*>* getRules() { return &rules; }
 		const Tags* getTags() { return tags; }
 
-		bool isInvalid() { return str_is_blank(description); }
+		bool isInvalid() { return str::is_blank(description); }
 		bool isValidIn(const Date* date);
 		bool hasLabel(const std::string label);
 		void print(const Date* date);

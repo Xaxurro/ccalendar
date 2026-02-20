@@ -7,7 +7,10 @@
 #include <stdexcept>
 #include <string>
 
-#define COLOR_NAME_REGEX "^[a-zA-Z0-9]+$"
+#define COLOR_WHITESPACE_REGEX "[ \t.:,;-_]"
+#define COLOR_NAME_REGEX "[a-zA-Z0-9]+"
+#define COLOR_RGB_REGEX "(\\d{1,3})" COLOR_WHITESPACE_REGEX "(\\d{1,3})" COLOR_WHITESPACE_REGEX "(\\d{1,3})"
+#define COLOR_HEX_REGEX "#[a-fA-F0-9]{6}"
 class Colors {
 	private:
 		inline static std::regex colorNameRegex = std::regex(COLOR_NAME_REGEX);

@@ -46,15 +46,15 @@ void Event::print(const Date* date) {
 		std::cout << "\033[38;2;" << color[0] << ";" << color[1] << ";" << color[2] << "m";
 	}
 
-	str_replace("\\d", std::to_string(date->getDay()), &description);
-	str_replace("\\m", std::to_string(date->getMonth()), &description);
-	str_replace("\\y", std::to_string(date->getYear()), &description);
+	str::replace("\\d", std::to_string(date->getDay()), &description);
+	str::replace("\\m", std::to_string(date->getMonth()), &description);
+	str::replace("\\y", std::to_string(date->getYear()), &description);
 
 	for (Rule* rule : rules) {
 		RuleWildcard* ruleWildcard = dynamic_cast<RuleWildcard*>(rule);
 		if (ruleWildcard == nullptr) continue;
 		if (!ruleWildcard->hasInitialYear()) continue;
-		str_replace("\\Y", std::to_string(date->getYear() - ruleWildcard->getInitialYear()), &description);
+		str::replace("\\Y", std::to_string(date->getYearsAfter(ruleWildcard->getInitialYear())), &description);
 	}
 
 	std::cout << description;
@@ -80,7 +80,10 @@ Event::Event(std::string str) {
 	}
 
 	std::regex eventRegex(EVENT_REGEX_STR);
-	if (!std::regex_match(str, match, eventRegex)) throw std::invalid_argument("EVENT: Does not match EVENT_REGEX or EVENT_FIXED_RANGE_REGEX");
+	if (!std::regex_match(str, match, eventRegex)) {
+		std::cout << str << std::endl;
+		throw std::invalid_argument("EVENT: Does not match EVENT_REGEX or EVENT_FIXED_RANGE_REGEX");
+	}
 
 	parseRules(match);
 }
@@ -133,7 +136,7 @@ void Event::parseRules(std::smatch match) {
 	}
 	if (std::regex_search(year, std::regex("^" REGEX_WILDCARD "$"))) {
 		if (year.size() > 1) {
-			int_least16_t initialYear = std::stoi(year.substr(0, 3));
+			int_least16_t initialYear = std::stoi(year.substr(0, 4));
 			rules.push_back(new RuleWildcard(initialYear));
 			return;
 		}

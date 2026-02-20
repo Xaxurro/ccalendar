@@ -20,7 +20,7 @@ bool RuleFixed::isValidIn(const Date* date) {
 	switch(measure) {
 	case DAY: {
 		int_least16_t maxDay = date->maxDayIn(date->getMonth(), date->getYear());
-		return value == date->getDay() || value >= maxDay;
+		return value == date->getDay() || (date->getDay() == maxDay && value > maxDay);
 	}
 	break;
 	case MONTH:
