@@ -1,5 +1,5 @@
-#ifndef H_DATE
-#define H_DATE
+#pragma once
+
 #include <cstdint>
 #include <string>
 #define MONDAY		1
@@ -64,4 +64,3 @@ class Date {
 		bool operator >= (const Date& day) const;
 		bool operator <= (const Date& day) const;
 };
-#endif

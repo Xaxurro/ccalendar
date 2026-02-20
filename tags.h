@@ -1,5 +1,5 @@
-#ifndef H_CALENDAR_TAGS
-#define H_CALENDAR_TAGS
+#pragma once
+
 #include "strings.h"
 #include <cctype>
 #include <cstddef>
@@ -23,4 +23,3 @@ class Tags {
 
 		void setTags(std::string tagsStr);
 };
-#endif // !H_CALENDAR_TAGS

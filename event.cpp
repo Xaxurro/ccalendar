@@ -1,12 +1,10 @@
 #include "event.h"
 #include "colors.h"
-#include "string.h"
 #include "rules/day-of-week.h"
 #include "rules/dynamic-range.h"
 #include "rules/fixed.h"
 #include "rules/fixed-range.h"
 #include "rules/wildcard.h"
-#include <string>
 
 Event::~Event() {
 	for (Rule* rule : rules) delete rule;

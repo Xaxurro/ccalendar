@@ -1,6 +1,4 @@
-#ifndef H_CALENDAR_COLOR
-#define H_CALENDAR_COLOR
-
+#pragma once
 
 #include <array>
 #include <cstdint>
@@ -32,4 +30,3 @@ class Colors {
 			return &colors[colorName];
 		}
 };
-#endif // H_CALENDAR_COLOR

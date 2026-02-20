@@ -1,5 +1,5 @@
-#ifndef H_CALENDAR_STRINGS_UTILS
-#define H_CALENDAR_STRINGS_UTILS
+#pragma once
+
 #include <cstdint>
 #include <string>
 #include "date.h"
@@ -9,5 +9,3 @@ int_least16_t str_find_tag_clousure(std::string description, char opening, char 
 bool str_has_value(std::string tag);
 std::string str_trim_left(std::string str);
 void str_replace(std::string strToSearch, std::string strToReplace, std::string* str);
-
-#endif // H_CALENDAR_STRINGS_UTILS

@@ -1,5 +1,4 @@
-#ifndef H_CALENDAR_EVENT
-#define H_CALENDAR_EVENT
+#pragma once
 
 #include <cctype>
 #include <list>
@@ -64,4 +63,3 @@ class Event {
 		Event(std::string str);
 		~Event();
 };
-#endif // !H_CALENDAR_EVENT

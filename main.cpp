@@ -1,30 +1,31 @@
 #include "event.h"
-#include <cstdlib>
+#include "files.h"
 #include <filesystem>
-#include <fstream>
 #include <iostream>
-#include <string>
+#include <list>
+
+std::list<Event*> getAllEvents() {
+	std::list<Event*> eventList = {};
+	for (std::filesystem::path path : files::getAllFiles()) {
+		for(Event* event : files::readFile(path)) eventList.push_back(event);
+	}
+	return eventList;
+}
 
 int main (int argc, char *argv[]) {
-	// Default value of `filename`: $HOME/calendar.cldr
-	std::string filename(getenv("HOME"));
-	filename.append("/calendar.cldr");
+	files::setRootDirectory();
 
-	// Asign the $CALENDAR_FILE value to `filename` when it's present
-	// TODO: Verify it's a file
-	// TODO: Verify it exists
-	if (const char* env_value = getenv("CALENDAR_FILE")) {
-		filename = env_value;
+	files::ensureRootDirExists();
+	files::ensureFileExists("color");
+	files::ensureFileExists("config");
+
+	std::list<Event*> eventList = getAllEvents();
+
+	//TODO Implement commands
+
+	for (Event* event : eventList) {
+		delete event;
 	}
-
-	// Create the file if it does not exists
-	if (!std::filesystem::exists(filename)) {
-		std::ofstream file(filename);
-	}
-
-	Event event("2024 02 29 [bold, underline,italic] test1 test2 test3");
-	std::cout << event.toDateString() << std::endl;
-	std::cout << event.getDescription() << std::endl;
 
 	return 0;
 }
