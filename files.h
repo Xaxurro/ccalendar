@@ -5,6 +5,10 @@
 #include <string>
 #include "event.h"
 
+#define CALENDAR_EXTENSION ".cldr"
+#define DIRECTORY_DEFAULT "/calendar"
+#define DIRECTORY_ENV "CALENDAR_DIRECTORY"
+
 namespace files {
 	extern std::filesystem::path rootDirectory;
 

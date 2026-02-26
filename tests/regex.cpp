@@ -17,6 +17,8 @@ TEST(RegexTest, RuleDayOfWeek) {
 
 	ASSERT_EQ(rules.size(), 3);
 
+
+	ASSERT_TRUE(dynamic_cast<RuleDayOfWeek*>(rules.front()) != nullptr);
 	ASSERT_EQ(dynamic_cast<RuleDayOfWeek*>(rules.front())->getDay(), 2);
 
 	Date date(17, 2, 2026);
@@ -50,7 +52,7 @@ TEST(RegexTest, RuleFixed) {
 
 	std::list<Rule*> rules = *event.getRules();
 
-	ASSERT_EQ(rules.size(), 3);
+	ASSERT_EQ(event.getRuleCount(), 3);
 
 	RuleFixed* rule = dynamic_cast<RuleFixed*>(rules.front());
 	ASSERT_TRUE(rule != nullptr);
@@ -70,7 +72,7 @@ TEST(RegexTest, RuleFixedRange) {
 
 	std::list<Rule*> rules = *event.getRules();
 
-	ASSERT_EQ(rules.size(), 1);
+	ASSERT_EQ(event.getRuleCount(), 1);
 
 	RuleFixedRange* rule = dynamic_cast<RuleFixedRange*>(rules.front());
 
@@ -96,9 +98,7 @@ TEST(RegexTest, RuleWildcard) {
 
 	ASSERT_TRUE(event.getRules() != nullptr);
 
-	std::list<Rule*> rules = *event.getRules();
-
-	ASSERT_EQ(rules.size(), 3);
+	ASSERT_EQ(event.getRuleCount(), 3);
 
 	Date date(8, 11, 2024);
 	ASSERT_TRUE(event.isValidIn(&date));

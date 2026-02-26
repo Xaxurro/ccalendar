@@ -28,8 +28,11 @@ void restoreFakeRootDirectory(const char* originalEnv) {
 
 
 TEST(FilesTest, SetEnvUndefined) {
+	std::string originalRootEnv = std::string(getenv(DIRECTORY_ENV));
+	unsetenv(DIRECTORY_ENV);
 	files::setRootDirectory();
-	ASSERT_EQ("$HOME/calendar", files::rootDirectory);
+	ASSERT_EQ(std::string(getenv("HOME")) + "/calendar", files::rootDirectory);
+	setenv(DIRECTORY_ENV, originalRootEnv.c_str(), 1);
 }
 
 TEST(FilesTest, EnvRestoration) {

@@ -38,3 +38,13 @@ TEST(EventTest, Print) {
 	ASSERT_EQ(getPrint(&event, &date), expectedOutput);
 }
 
+TEST(EventTest, ListRules) {
+	Event event("#3 {4 5} 2026 The Boys Season 5");
+	ASSERT_EQ(event.getRuleCount(), 4);
+
+	Date date(8, 4, 2026);
+	ASSERT_TRUE(event.isValidIn(&date));
+	date = Date(27, 5, 2026);
+	ASSERT_TRUE(event.isValidIn(&date));
+}
+

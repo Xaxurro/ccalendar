@@ -31,7 +31,7 @@ colors.test: tests/color.cpp
 date.test: tests/date.cpp date.o 
 	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
-rules.test: tests/rules.cpp date.o $(rules.o)
+rules.test: tests/rules.cpp strings.o date.o $(rules.o)
 	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
 tags.test: tests/tags.cpp tags.o date.o strings.o
@@ -47,8 +47,8 @@ release: FLAGS = $(FLAGS_RELEASE)
 release: $(all.o)
 	$(COMPILER) main.cpp $(all.o) -o ccalendar
 
-regex:
-	$(COMPILER) debug/regex.cpp $(event.o) $(rules.o) -o debug/regex.bin
+regex.bin: debug/regex.cpp $(all.o)
+	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
 clean:
 	rm -f *.bin

@@ -11,12 +11,16 @@ namespace str {
 	}
 
 	int_least16_t find_tag_clousure(std::string str, char opening, char closure) {
-		//Searches for [...] at the start of description, returns -1 if NOT found, otherwise the index of the ']' character
-		//also returns -1 when the initial character isn't tag opening
 		if (str[0] != opening) return -1;
 		size_t tagClosureIndex = str.find_first_of(closure);
 		if (tagClosureIndex == str.npos) return -1;
 		return tagClosureIndex;
+	}
+
+	std::string get_contents(std::string str, char opening, char closure) {
+		size_t closure_position = str::find_tag_clousure(str, opening, closure);
+		if (closure_position == (size_t)-1) return "";
+		return str.substr(1, closure_position-1);
 	}
 
 	bool has_value(std::string tag) {

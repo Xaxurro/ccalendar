@@ -10,7 +10,11 @@ namespace str {
 	bool is_blank(std::string str);
 
 	//returns the position of `clousure` inside `description` ONLY if `opening` is present **BEFORE**
-	int_least16_t find_tag_clousure(std::string description, char opening, char closure);
+	//also returns -1 when the initial character isn't tag opening
+	int_least16_t find_tag_clousure(std::string str, char opening, char closure);
+
+	//returns the contents that are in between `opening` and `closure`
+	std::string get_contents(std::string str, char opening, char closure);
 
 	//Searches inside "[...]" and checks `tag` exists within
 	bool has_value(std::string tag);

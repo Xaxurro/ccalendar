@@ -4,10 +4,6 @@
 #include <fstream>
 #include <string>
 
-#define CALENDAR_EXTENSION ".cldr"
-#define DIRECTORY_DEFAULT "/calendar"
-#define DIRECTORY_ENV "CALENDAR_DIRECTORY"
-
 namespace files {
 	std::filesystem::path rootDirectory;
 

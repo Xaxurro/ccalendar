@@ -1,8 +1,8 @@
-#include "../event.h"
+#include "../rules/rule.h"
 #include <iostream>
 
-int main (int argc, char *argv[]) {
-	std::cout << EVENT_REGEX_STR << std::endl;
-	std::cout << EVENT_FIXED_RANGE_REGEX << std::endl;
+int main () {
+	std::cout << "EVENT_REGEX_STR\n" << EVENT_REGEX_STR << std::endl;
+	std::cout << "EVENT_FIXED_RANGE_REGEX\n" << EVENT_FIXED_RANGE_REGEX << std::endl;
 	return 0;
 }

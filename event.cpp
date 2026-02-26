@@ -1,9 +1,7 @@
 #include "event.h"
 #include "colors.h"
-#include "rules/day-of-week.h"
-#include "rules/dynamic-range.h"
-#include "rules/fixed.h"
 #include "rules/fixed-range.h"
+#include "rules/list.h"
 #include "rules/wildcard.h"
 
 Event::~Event() {
@@ -12,11 +10,23 @@ Event::~Event() {
 	delete tags;
 }
 
-// event_string: a line that defines an event
 Event::Event(std::list<Rule*>* rules, Tags* tags, std::string description) {
 	 this->rules = *rules;
 	 this->tags = tags;
 	 this->description = description;
+}
+
+int_least16_t Event::getRuleCount() {
+	int_least16_t count = 0;
+	for (Rule* rule : rules) {
+		RuleList* ruleList = dynamic_cast<RuleList*>(rule);
+		if (ruleList != nullptr) {
+			count += ruleList->getRulesList()->size();
+		} else {
+			count += 1;
+		}
+	}
+	return count;
 }
 
 void Event::print(const Date* date) {
@@ -85,69 +95,16 @@ Event::Event(std::string str) {
 		throw std::invalid_argument("EVENT: Does not match EVENT_REGEX or EVENT_FIXED_RANGE_REGEX");
 	}
 
-	parseRules(match);
-}
-
-void Event::parseRules(std::smatch match) {
-	std::string day		= match[1];
-	std::string month	= match[2];
-	std::string year	= match[3];
 	this->tags		= new Tags(match[4]);
 	this->description	= match[5];
 
-	// Rule Day of Week
-	if (std::regex_search(day, std::regex("^" REGEX_DAY_OF_WEEK "$"))) {
-		RuleDayOfWeek rule(day);
-		rules.push_back(new RuleDayOfWeek(day));
-	}
-
-	// Rule Dynamic Range
-	if (std::regex_search(day, std::regex("^" REGEX_DYNAMIC_RANGE_DAY_MONTH "$"))) {
-		rules.push_back(new RuleDynamicRange(DAY, day));
-	}
-
-	if (std::regex_search(month, std::regex("^" REGEX_DYNAMIC_RANGE_DAY_MONTH "$"))) {
-		rules.push_back(new RuleDynamicRange (MONTH, month));
-	}
-
-	if (std::regex_search(year, std::regex("^" REGEX_DYNAMIC_RANGE_YEAR "$"))) {
-		rules.push_back(new RuleDynamicRange (YEAR, year));
-	}
-
-	// Rule Fixed
-	if (std::regex_search(day, std::regex("^" REGEX_FIXED_DAY_MONTH "$"))) {
-		rules.push_back(new RuleFixed (DAY, std::stoi(day)));
-	}
-
-	if (std::regex_search(month, std::regex("^" REGEX_FIXED_DAY_MONTH "$"))) {
-		rules.push_back(new RuleFixed (MONTH, std::stoi(month)));
-	}
-
-	if (std::regex_search(year, std::regex("^" REGEX_FIXED_YEAR "$"))) {
-		rules.push_back(new RuleFixed (YEAR, std::stoi(year)));
-	}
-
-	// Rule Wildcard
-	if (std::regex_search(day, std::regex("^" REGEX_WILDCARD "$"))) {
-		rules.push_back(new RuleWildcard);
-	}
-	if (std::regex_search(month, std::regex("^" REGEX_WILDCARD "$"))) {
-		rules.push_back(new RuleWildcard);
-	}
-	if (std::regex_search(year, std::regex("^" REGEX_WILDCARD "$"))) {
-		if (year.size() > 1) {
-			int_least16_t initialYear = std::stoi(year.substr(0, 4));
-			rules.push_back(new RuleWildcard(initialYear));
-			return;
-		}
-		rules.push_back(new RuleWildcard);
-	}
+	rules.push_back(Rule::fromString(match[1], DAY));
+	rules.push_back(Rule::fromString(match[2], MONTH));
+	rules.push_back(Rule::fromString(match[3], YEAR));
 }
 
 bool Event::isValidIn(const Date* date) {
-	for (Rule* rule : rules) {
-		if (!rule->isValidIn(date)) return false;
-	}
+	for (Rule* rule : rules) if (!rule->isValidIn(date)) return false;
 	return true;
 }
 
