@@ -1,12 +1,13 @@
 #include "event.h"
 #include "files.h"
 #include "strings.h"
-#include <array>
 #include <cctype>
 #include <cstdint>
+#include <cstdlib>
 #include <filesystem>
 #include <iostream>
 #include <list>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -32,7 +33,8 @@ void printHelp() {
 	std::cout << "\t-b / --before <int>\tDays Before Today" << std::endl;
 	std::cout << "\t-a / --after <int>\tDays After Today" << std::endl;
 	std::cout << "\t-l / --label <string>\tHas Labels, separated by ','" << std::endl;
-	std::cout << "\t-t / --today\tprints today's date" << std::endl;
+	std::cout << "\t-t / --today\t\tprints today's date" << std::endl;
+	std::cout << "\t-e / --edit\t\texecutes $EDITOR $CALENDAR_DIRECTORY" << std::endl;
 	printVersion();
 }
 
@@ -51,11 +53,11 @@ int_least16_t toInt(std::string str) {
 	return std::stoi(str);
 }
 
-// void parseConfig() {
-// }
-
-void parseColors() {
-	
+void editFiles() {
+	const char* editor = getenv("EDITOR");
+	if (!editor) throw std::invalid_argument("$EDITOR is not set!");
+	std::string command = std::string(editor) + " " + files::rootDirectory.c_str();
+	system(command.c_str());
 }
 
 void parseArguments(int argc, std::vector<std::string> args) {
@@ -65,6 +67,7 @@ void parseArguments(int argc, std::vector<std::string> args) {
 		if (arg == "-h" || arg == "--help") printHelp();
 		if (arg == "-v" || arg == "--version") printVersion();
 		if (arg == "-t" || arg == "--today") printToday();
+		if (arg == "-e" || arg == "--edit") editFiles();
 
 		if (i+1 == argc) continue;
 
@@ -72,9 +75,7 @@ void parseArguments(int argc, std::vector<std::string> args) {
 
 		if (arg == "-b" || arg == "--before") options.daysBefore = toInt(argNext);
 		if (arg == "-a" || arg == "--after") options.daysAfter = toInt(argNext);
-		if (arg == "-l" || arg == "--label") {
-			options.labelsToSearch = str::split(",", &argNext);
-		}
+		if (arg == "-l" || arg == "--label") options.labelsToSearch = str::split(",", &argNext);
 	}
 }
 
@@ -85,11 +86,10 @@ int main (int argc, char *argv[]) {
 		args.push_back(argv[i]);
 	}
 
-	// parseConfig();
-	parseColors();
-	parseArguments(argc, args);
-
 	files::setRootDirectory();
+
+	// parseConfig();
+	parseArguments(argc, args);
 
 	files::ensureRootDirExists();
 	files::ensureFileExists("color");
