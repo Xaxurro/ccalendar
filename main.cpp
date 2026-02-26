@@ -88,13 +88,12 @@ int main (int argc, char *argv[]) {
 
 	files::setRootDirectory();
 
-	// parseConfig();
+	// TODO parseConfig();
 	parseArguments(argc, args);
 
-	files::ensureRootDirExists();
-	files::ensureFileExists("color");
-	files::ensureFileExists("config");
+	files::ensureFilesExists();
 
+	files::readColorsFile();
 	std::list<Event*> eventList = getAllEvents();
 
 	//TODO Implement commands

@@ -19,10 +19,13 @@ namespace files {
 	std::list<std::filesystem::path> getAllFiles();
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/colors" file
-	std::filesystem::path getFileColors();
+	std::filesystem::path getColorsFile();
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/config" file
-	std::filesystem::path getFileConfig();
+	std::filesystem::path getConfigFile();
+
+	//Makes sure all the files exists including the $CALENDAR_DIRECTORY
+	void ensureFilesExists();
 
 	//Given the `path` if it doesn't exists, it creates the directory, if it's a file throws error
 	void ensureRootDirExists();
@@ -31,4 +34,7 @@ namespace files {
 	void ensureFileExists(std::string path);
 
 	std::list<Event*> readFile(std::filesystem::path);
+
+	//Adds Parses the $CALENDAR_DIRECTORY/colors file
+	void readColorsFile();
 }

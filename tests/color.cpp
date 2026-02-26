@@ -35,3 +35,13 @@ TEST(ColorTest, Replace) {
 	EXPECT_TRUE(green[1] == 254);
 }
 
+TEST(ColorTest, HEXToRGB) {
+	std::string hexRed = "e0";
+	std::string hexGreen = "1b";
+	std::string hexBlue = "24";
+
+	ASSERT_EQ(Colors::hexToRgb(hexRed), 224);
+	ASSERT_EQ(Colors::hexToRgb(hexGreen), 27);
+	ASSERT_EQ(Colors::hexToRgb(hexBlue), 36);
+}
+

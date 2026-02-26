@@ -1,7 +1,9 @@
 #include "files.h"
+#include "colors.h"
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <regex>
 #include <string>
 
 namespace files {
@@ -23,13 +25,19 @@ namespace files {
 	}
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/colors" file
-	std::filesystem::path getFileColors() {
+	std::filesystem::path getColorsFile() {
 		return rootDirectory / "colors";
 	}
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/colors" file
 	std::filesystem::path getFileConfig() {
 		return rootDirectory / "config";
+	}
+
+	void ensureFilesExists() {
+		files::ensureRootDirExists();
+		files::ensureFileExists("colors");
+		files::ensureFileExists("config");
 	}
 
 	//Given the relative `path` if it doesn't exists, it creates the directory, if it's a file throws error
@@ -63,10 +71,23 @@ namespace files {
 	}
 
 	void readColorsFile() {
-		std::ifstream colorFile(getFileColors());
+		std::ifstream colorFile(getColorsFile());
 		std::string line;
 		while (std::getline(colorFile, line)) {
-
+			std::regex rgbRegex(COLOR_RGB_REGEX);
+			std::smatch match;
+			if (std::regex_match(line, match, rgbRegex)) {
+				std::array<int_least16_t, 3> rgb = {(int_least16_t)std::stoi(match[2]), (int_least16_t)std::stoi(match[3]), (int_least16_t)std::stoi(match[4])};
+				Colors::add(match[1], rgb);
+				continue;
+			}
+			std::regex hexRegex(COLOR_HEX_REGEX);
+			if (std::regex_match(line, match, hexRegex)) {
+				std::array<int_least16_t, 3> rgb = {Colors::hexToRgb(match[2]), Colors::hexToRgb(match[3]), Colors::hexToRgb(match[4])};
+				Colors::add(match[1], rgb);
+				continue;
+			}
+			std::cout << line << std::endl;
 		}
 	}
 }
