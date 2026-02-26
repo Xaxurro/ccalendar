@@ -88,8 +88,8 @@ TEST(FilesTest, EnsureRootExistant) {
 TEST(FilesTest, GetSpecialFiles) {
 	const char* originalEnv = setFakeRootDirectory();
 
-	ASSERT_EQ(std::string(files::getFileColors().c_str()), TEST_DIRECTORY "/colors");
-	ASSERT_EQ(std::string(files::getFileConfig().c_str()), TEST_DIRECTORY "/config");
+	ASSERT_EQ(std::string(files::getColorsFile().c_str()), TEST_DIRECTORY "/colors");
+	ASSERT_EQ(std::string(files::getConfigFile().c_str()), TEST_DIRECTORY "/config");
 
 	restoreFakeRootDirectory(originalEnv);
 }

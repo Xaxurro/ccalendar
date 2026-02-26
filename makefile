@@ -2,18 +2,12 @@ COMPILER = clang++
 DEBUG ?= true
 PREFIX ?= /usr/local
 DESTDIR ?=
-FLAGS_DEBUG = -fsanitize=address -g -Wall -Wextra
-FLAGS_RELEASE = -O2 -Wall -Wextra
+override FLAGS_DEBUG += -fsanitize=address -g -Wall -Wextra
+override FLAGS_RELEASE += -O2 -Wall -Wextra
 GTEST = -lgtest -lgtest_main
 FLAGS = 
 
 TESTS = files.test colors.test date.test rules.test tags.test regex.test event.test
-
-ifeq ($(DEBUG),true)
-	FLAGS = $(FLAGS_DEBUG)
-else
-	FLAGS = $(FLAGS_RELEASE)
-endif
 
 event.o = event.o strings.o date.o tags.o
 rules = $(wildcard rules/*.cpp)
