@@ -5,11 +5,8 @@ Utility to set reminder of events written in C++!
 ```
 git clone git@github.com:Xaxurro/ccalendar.git
 cd ccalendar
-make release
+sudo make install
 ```
-
-## OPTIONAL: Move it into your `bin` directory to use it from everywhere
-`sudo mv ccalendar /bin`
 
 ## OPTIONAL: Add the syntax file into your neovim config
 ```
