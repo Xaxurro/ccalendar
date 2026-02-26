@@ -1,5 +1,7 @@
 COMPILER = clang++
 DEBUG ?= true
+PREFIX ?= /usr/local
+DESTDIR ?=
 FLAGS_DEBUG = -fsanitize=address -g -Wall -Wextra
 FLAGS_RELEASE = -O2 -Wall -Wextra
 GTEST = -lgtest -lgtest_main
@@ -43,9 +45,11 @@ event.test: tests/event.cpp $(all.o)
 regex.test: tests/regex.cpp $(all.o)
 	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
-release: FLAGS = $(FLAGS_RELEASE)
-release: $(all.o)
-	$(COMPILER) main.cpp $(all.o) -o ccalendar
+install: FLAGS = $(FLAGS_RELEASE)
+install: main.cpp $(all.o)
+	$(COMPILER) $(FLAGS) $^ -o ccalendar
+	install -d "$(DESTDIR)$(PREFIX)/bin"
+	install -m 755 ccalendar "$(DESTDIR)$(PREFIX)/bin"
 
 regex.bin: debug/regex.cpp $(all.o)
 	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
