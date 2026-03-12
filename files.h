@@ -19,10 +19,10 @@ namespace files {
 	std::list<std::filesystem::path> getAllFiles();
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/colors" file
-	std::filesystem::path getColorsFile();
+	std::filesystem::path getFileColors();
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/config" file
-	std::filesystem::path getConfigFile();
+	std::filesystem::path getFileConfig();
 
 	//Makes sure all the files exists including the $CALENDAR_DIRECTORY
 	void ensureFilesExists();

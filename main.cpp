@@ -75,7 +75,7 @@ void parseArguments(int argc, std::vector<std::string> args) {
 
 		if (arg == "-b" || arg == "--before") options.daysBefore = toInt(argNext);
 		if (arg == "-a" || arg == "--after") options.daysAfter = toInt(argNext);
-		if (arg == "-l" || arg == "--label") options.labelsToSearch = str::split(",", &argNext);
+		if (arg == "-l" || arg == "--label") options.labelsToSearch = str::split(",", argNext);
 	}
 }
 

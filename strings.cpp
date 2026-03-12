@@ -46,17 +46,17 @@ namespace str {
 		}
 	}
 
-	std::list<std::string> split(std::string delimiter, std::string* str) {
-		std::list<std::string> ocurrencesList = {};
-		size_t position = str->find(delimiter);
+	std::list<std::string> split(const std::string& delimiter, std::string& str) {
+		std::list<std::string> occurrencesList = {};
+		size_t last = 0;
+		size_t next = 0;
 
-		while(position != str->npos) {
-			ocurrencesList.push_back(str->substr(0, position));
-			str->erase(0, position + 1);
-			position = str->find(delimiter, position + delimiter.size());
+		while ((next = str.find(delimiter, last)) != std::string::npos) {
+			occurrencesList.push_back(str.substr(last, next - last));
+			last = next + delimiter.length();
 		}
 
-		ocurrencesList.push_back(*str);
-		return ocurrencesList;
+		occurrencesList.push_back(str.substr(last));
+		return occurrencesList;
 	}
 }

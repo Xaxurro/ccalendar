@@ -25,7 +25,7 @@ namespace files {
 	}
 
 	//Returns the path to the "$CALENDAR_DIRECTORY/colors" file
-	std::filesystem::path getColorsFile() {
+	std::filesystem::path getFileColors() {
 		return rootDirectory / "colors";
 	}
 
@@ -71,7 +71,7 @@ namespace files {
 	}
 
 	void readColorsFile() {
-		std::ifstream colorFile(getColorsFile());
+		std::ifstream colorFile(getFileColors());
 		std::string line;
 		while (std::getline(colorFile, line)) {
 			std::regex rgbRegex(COLOR_RGB_REGEX);

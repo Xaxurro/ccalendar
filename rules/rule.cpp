@@ -19,8 +19,7 @@ Rule* Rule::fromString(std::string str, int_least16_t measure) {
 	}
 	//Multiple Rules
 	RuleList* ruleList = new RuleList();
-	for (std::string newRuleStr : str::split(" ", &listContents)) {
-
+	for (std::string newRuleStr : str::split(" ", listContents)) {
 		Rule* newRule = parseRule(newRuleStr, measure);
 		//Checking for default nullptr return value
 		if (newRule == nullptr) {

@@ -25,5 +25,5 @@ namespace str {
 	void replace(std::string strToSearch, std::string strToReplace, std::string* str);
 
 	//Splits `str` everytime `delimiter` is present
-	std::list<std::string> split(std::string delimiter, std::string* str);
+	std::list<std::string> split(const std::string& delimiter, std::string& str);
 }

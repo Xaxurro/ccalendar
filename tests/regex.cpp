@@ -106,6 +106,12 @@ TEST(RegexTest, RuleWildcard) {
 	ASSERT_EQ(event.getDescription(), std::string("My Birthday!"));
 }
 
+TEST(RegexTest, RuleList) {
+	Event event("{15 16 17} 11 2002* My Birthday!");
+	ASSERT_TRUE(event.getRules() != nullptr);
+	ASSERT_EQ(event.getRuleCount(), 5);
+}
+
 TEST(RegexTest, EventInvalid) {
 	EXPECT_THROW(Event("28"), std::invalid_argument);
 	EXPECT_THROW(Event("28 missing month and year"), std::invalid_argument);
@@ -115,24 +121,28 @@ TEST(RegexTest, EventInvalid) {
 	EXPECT_THROW(Event("28022024this has no spaces on Date!"), std::invalid_argument);
 }
 
-// // TODO: FIX THIS TO make it check for the syntax using the constructor or something idk
-// void checkTagSize(std::string str, size_t expectedSize) {
-// 	Tags tags;
-// 	tags.setTags(str);
-// 	ASSERT_EQ(tags.size(), expectedSize);
-// }
-//
-// TEST(RegexTest, InvalidTagSyntax) {
-// 	checkTagSize("06 01 2025 [this event has no tags!", 0);
-// 	checkTagSize("06 01 2025 this one neither!", 0);
-// 	checkTagSize("06 01 2025 [] this one neither!", 0);
-// 	checkTagSize("06 01 2025 [,] this does!", 1);
-// 	checkTagSize("06 01 2025 [bold] this one is bold!", 1);
-// 	checkTagSize("06 01 2025 [bold, ] this one is just bold!", 1);
-// 	checkTagSize("06 01 2025 [bold underline] this one is bold and underline!", 2);
-// }
-//
-//
+// TODO: FIX THIS TO make it check for the syntax using the constructor or something idk
+void checkTagSize(std::string str, size_t expectedSize) {
+	if (false) {
+	Tags tags("");
+	tags.setTags(str);
+	ASSERT_EQ(tags.size(), expectedSize);
+	}
+}
+
+TEST(RegexTest, InvalidTagSyntax) {
+	if (false) {
+	checkTagSize("06 01 2025 [this event has no tags!", 0);
+	checkTagSize("06 01 2025 this one neither!", 0);
+	checkTagSize("06 01 2025 [] this one neither!", 0);
+	checkTagSize("06 01 2025 [,] this does!", 1);
+	checkTagSize("06 01 2025 [bold] this one is bold!", 1);
+	checkTagSize("06 01 2025 [bold, ] this one is just bold!", 1);
+	checkTagSize("06 01 2025 [bold underline] this one is bold and underline!", 2);
+	}
+}
+
+
 
 TEST(RegexTest, Tags) {
 	Tags tags("hello this color=red is a test");

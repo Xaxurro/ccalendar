@@ -7,18 +7,24 @@ override FLAGS_RELEASE += -O2 -Wall -Wextra
 GTEST = -lgtest -lgtest_main
 FLAGS = 
 
-TESTS = files.test colors.test date.test rules.test tags.test regex.test event.test
+TESTS = strings.test files.test colors.test date.test rules.test tags.test regex.test event.test
 
 event.o = event.o strings.o date.o tags.o
 rules = $(wildcard rules/*.cpp)
 rules.o = $(rules:.cpp=.o)
 all.o = $(event.o) $(rules.o) files.o
 
+tests: FLAGS = $(FLAGS_DEBUG)
+tests: $(TESTS)
+
 tests-run: FLAGS = $(FLAGS_DEBUG)
-tests-run: $(TESTS)
-	./colors.test && ./date.test && ./tags.test && ./rules.test && ./regex.test && ./event.test && ./files.test 
+tests-run: tests
+	./strings.test && ./colors.test && ./date.test && ./tags.test && ./rules.test && ./regex.test && ./event.test && ./files.test 
 
 files.test: tests/files.cpp files.o $(all.o)
+	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
+
+strings.test: tests/strings.cpp strings.o
 	$(COMPILER) $(FLAGS) $^ -o $@ $(GTEST)
 
 colors.test: tests/color.cpp
