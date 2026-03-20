@@ -17,7 +17,6 @@ all.o = $(event.o) $(rules.o) files.o
 tests: FLAGS = $(FLAGS_DEBUG)
 tests: $(TESTS)
 
-tests-run: FLAGS = $(FLAGS_DEBUG)
 tests-run: tests
 	./strings.test && ./colors.test && ./date.test && ./tags.test && ./rules.test && ./regex.test && ./event.test && ./files.test 
 

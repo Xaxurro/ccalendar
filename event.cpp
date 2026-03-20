@@ -30,7 +30,11 @@ int_least16_t Event::getRuleCount() {
 }
 
 void Event::print(const Date* date) {
-	std::cout << date->toString() << " ";
+	if (*date == Date::today()) {
+		std::cout << "TODAY" << " ";
+	} else {
+		std::cout << date->toString() << " ";
+	}
 	if (tags->has("bold")) {
 		std::cout << "\033[1m";
 	}

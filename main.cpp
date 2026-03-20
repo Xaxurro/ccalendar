@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-#define VERSION "0.1-alpha"
+#define VERSION "0.2-alpha"
 
 std::list<Event*> getAllEvents() {
 	std::list<Event*> eventList = {};
@@ -34,7 +34,7 @@ void printHelp() {
 	std::cout << "\t-a / --after <int>\tDays After Today" << std::endl;
 	std::cout << "\t-l / --label <string>\tHas Labels, separated by ','" << std::endl;
 	std::cout << "\t-t / --today\t\tprints today's date" << std::endl;
-	std::cout << "\t-e / --edit\t\texecutes $EDITOR $CALENDAR_DIRECTORY" << std::endl;
+	std::cout << "\t-e / --edit\t\texecutes `$EDITOR $CALENDAR_DIRECTORY`" << std::endl;
 	printVersion();
 }
 
@@ -108,7 +108,6 @@ int main (int argc, char *argv[]) {
 			if (options.labelsToSearch.empty()) {
 				if (event->isValidIn(&pointer)) {
 					if (pointer >= today && !printedTodayBanner) {
-						std::cout << "TODAY" << std::endl;
 						printedTodayBanner = true;
 					}
 					event->print(&pointer);
@@ -117,7 +116,6 @@ int main (int argc, char *argv[]) {
 				for (std::string label : options.labelsToSearch) {
 					if (event->hasLabel(label) && event->isValidIn(&pointer)) {
 						if (pointer >= today && !printedTodayBanner) {
-							std::cout << "TODAY" << std::endl;
 							printedTodayBanner = true;
 						}
 						event->print(&pointer);
