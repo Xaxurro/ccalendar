@@ -1,6 +1,9 @@
 # ccalendar
 Utility to set reminder of events written in C++!
 
+# How to use
+Check the [wiki](https://github.com/Xaxurro/ccalendar/wiki)
+
 # How to compile
 ```
 git clone git@github.com:Xaxurro/ccalendar.git
@@ -22,6 +25,3 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
 	end,
 })
 ```
-
-# How to use
-Check the [wiki](https://github.com/Xaxurro/ccalendar/wiki)
