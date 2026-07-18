@@ -4,6 +4,19 @@
 #include <ctime>
 #include <stdexcept>
 
+std::string Date::getDayName() const {
+	switch (Date::getDayOfTheWeek()) {
+		case MONDAY: return "Monday";
+		case TUESDAY: return "Tuesday";
+		case WEDNESDAY: return "Wednesday";
+		case THURSDAY: return "Thursday";
+		case FRIDAY: return "Friday";
+		case SATURDAY: return "Saturday";
+		case SUNDAY: return "Sunday";
+	}
+	return "";
+}
+
 void Date::checkExistance() const {
 	if (isInvalid()) return;
 	if (int_least16_t max_day = maxDayIn(month, year); day > max_day) {
